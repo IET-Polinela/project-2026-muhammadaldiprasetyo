@@ -2,23 +2,93 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Aldi</title>
     <style>
-        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; border-top: 8px solid #007bff; }
-        h1 { color: #333; margin-top: 0; }
-        p { color: #666; line-height: 1.5; font-size: 14px; }
-        .tag { background: #e7f3ff; color: #007bff; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; }
-        a { display: block; margin-top: 1.5rem; color: #007bff; text-decoration: none; font-weight: bold; }
+        /* Menggunakan font sistem yang bersih */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: #fafafa; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+        }
+        
+        .card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 24px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04); 
+            width: 320px; 
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .tag { 
+            font-size: 10px; 
+            font-weight: 800; 
+            letter-spacing: 1.5px; 
+            color: #007bff; 
+            text-transform: uppercase; 
+            margin-bottom: 12px; 
+            display: block;
+        }
+
+        h1 { 
+            font-size: 24px; 
+            color: #1a1a1a; 
+            margin: 0 0 16px 0; 
+            letter-spacing: -0.5px;
+        }
+
+        p { 
+            font-size: 15px; 
+            color: #555; 
+            line-height: 1.6; 
+            margin-bottom: 24px; 
+        }
+
+        b { color: #1a1a1a; }
+
+        .btn-back { 
+            display: inline-flex; 
+            align-items: center; 
+            color: #007bff; 
+            text-decoration: none; 
+            font-size: 14px; 
+            font-weight: 600; 
+            transition: 0.2s;
+        }
+
+        .btn-back:hover { opacity: 0.7; }
+
+        /* Garis dekoratif kecil */
+        .divider {
+            width: 40px;
+            height: 4px;
+            background: #007bff;
+            border-radius: 2px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
+
     <div class="card">
+        <div class="divider"></div>
+        <span class="tag">IET Student</span>
         <h1>About Me</h1>
-        <span class="tag">MAHASISWA TRI</span>
-        <p>Saya <b>Aldi Paling Ganteng Kata Mak saya</b>, sedang menempuh semester 4 di <b>POLINELA</b>. Fokus saya adalah Internet Engineering & Web Development.</p>
-        <p>Lab Session 2: Django Multiple Apps & Routing.</p>
-        <a href="/">← Back to Home</a>
+        <p>
+            Saya <b>Aldi</b>, mahasiswa semester 4 di <b>POLINELA</b>. 
+            Fokus pada <i>Internet Engineering</i> & pengembangan web modern.
+        </p>
+        </p>
+        <a href="/" class="btn-back">← Back to Home</a>
     </div>
+
 </body>
 </html>

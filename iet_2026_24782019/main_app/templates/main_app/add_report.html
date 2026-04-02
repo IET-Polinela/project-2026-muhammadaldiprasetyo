@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Laporan - Smart City</title>
+    <style>
+        /* Konsistensi dengan tema Lab 2 Aldi */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #2c3e50, #4ca1af); 
+            color: white; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin: 0; 
+        }
+        .container { 
+            background: white; 
+            color: #333; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            width: 100%;
+            max-width: 450px; 
+            text-align: center; 
+        }
+        h1 { color: #2c3e50; margin-bottom: 20px; font-size: 1.8em; }
+        p.subtitle { color: #666; margin-bottom: 30px; }
+
+        /* Styling Form Django agar tidak polos */
+        form p {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        form input, form textarea, form select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box; /* Agar padding tidak merusak lebar */
+            font-family: inherit;
+        }
+        form input:focus, form textarea:focus {
+            outline: none;
+            border-color: #4ca1af;
+            box-shadow: 0 0 5px rgba(76, 161, 175, 0.3);
+        }
+
+        .btn-group { margin-top: 25px; }
+        .btn { 
+            text-decoration: none; 
+            padding: 12px 25px; 
+            border: none;
+            border-radius: 5px; 
+            transition: 0.3s; 
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .btn-save { background: #2c3e50; color: white; }
+        .btn-save:hover { background: #4ca1af; transform: translateY(-3px); }
+        
+        .btn-back { background: #ecf0f1; color: #7f8c8d; font-size: 0.9em; }
+        .btn-back:hover { background: #bdc3c7; color: #2c3e50; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ title|default:"Buat Laporan" }}</h1>
+        <p class="subtitle">Silakan isi detail permasalahan kota di bawah ini.</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-save">Simpan Laporan</button>
+                <a href="{% url 'report_list' %}" class="btn btn-back">Batal & Kembali</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,28 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Contact Us</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Aldi Ganteng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #e9ecef; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .contact-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 350px; text-align: center; }
-        .header { background: #2c3e50; padding: 20px; color: white; }
-        .content { padding: 30px; }
-        .content p { margin: 10px 0; color: #666; font-size: 0.9em; }
-        .footer { padding-bottom: 30px; }
-        .btn-home { text-decoration: none; color: #2c3e50; border: 2px solid #2c3e50; padding: 8px 20px; border-radius: 20px; font-weight: bold; transition: 0.3s; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #e9ecef; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .contact-card { 
+            background: white; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            width: 400px; 
+            text-align: center; 
+        }
+        .header { 
+            background: #2c3e50; 
+            padding: 25px; 
+            color: white; 
+        }
+        .content { 
+            padding: 20px 30px; 
+        }
+        
+        /* Baris per item */
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .contact-item:last-child { border-bottom: none; }
+
+        .info-group {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            gap: 15px;
+        }
+        .info-group i {
+            font-size: 20px;
+            color: #2c3e50;
+            width: 25px;
+        }
+        .text-group span { display: block; }
+        .label { font-weight: bold; font-size: 0.9em; color: #333; }
+        .detail { font-size: 0.8em; color: #777; }
+
+        /* Tombol Kunjungi */
+        .btn-visit {
+            background: #2c3e50;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-visit:hover { background: #4ca1af; transform: scale(1.05); }
+
+        .footer { padding: 20px 0 35px; }
+        .btn-home { 
+            text-decoration: none; 
+            color: #2c3e50; 
+            border: 2px solid #2c3e50; 
+            padding: 10px 25px; 
+            border-radius: 25px; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            font-size: 0.9em;
+        }
         .btn-home:hover { background: #2c3e50; color: white; }
     </style>
 </head>
 <body>
     <div class="contact-card">
         <div class="header">
-            <h2 style="margin:0">Kontak Aldi Yang Paling Ganteng</h2>
+            <h2 style="margin:0">Kontak Aldi Ganteng</h2>
         </div>
+        
         <div class="content">
-            <p><strong>📧 Email</strong><br>24782019@student.polinela.ac.id</p>
-            <p><strong>💻 Lab</strong><br>Teknologi Rekayasa Internet</p>
-            <p><strong>📍 Lokasi</strong><br>Politeknik Negeri Lampung</p>
+            <div class="contact-item">
+                <div class="info-group">
+                    <i class="fab fa-instagram"></i>
+                    <div class="text-group">
+                        <span class="label">Instagram</span>
+                        <span class="detail">@mhmmdaldiprstyo_</span>
+                    </div>
+                </div>
+                <a href="https://www.instagram.com/mhmmdaldiprstyo_?igsh=MWZtcnUxamc5OGN6bw==" target="_blank" class="btn-visit">Kunjungi</a>
+            </div>
+
+            <div class="contact-item">
+                <div class="info-group">
+                    <i class="fab fa-tiktok"></i>
+                    <div class="text-group">
+                        <span class="label">TikTok</span>
+                        <span class="detail">@prstyo06_</span>
+                    </div>
+                </div>
+                <a href="https://www.tiktok.com/@prstyo06_?_r=1&_t=ZS-94gVNxq400K" target="_blank" class="btn-visit">Kunjungi</a>
+            </div>
+
+            <div class="contact-item">
+                <div class="info-group">
+                    <i class="fas fa-envelope"></i>
+                    <div class="text-group">
+                        <span class="label">Email</span>
+                        <span class="detail">24782019@student...</span>
+                    </div>
+                </div>
+                <a href="mailto:24782019@student.polinela.ac.id" class="btn-visit">Kirim</a>
+            </div>
+
+            <div class="contact-item">
+                <div class="info-group">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="text-group">
+                        <span class="label">Lokasi</span>
+                        <span class="detail">Politeknik Negeri Lampung, Bandar Lampung</span>
+                    </div>
+                </div>
+                <span style="font-size: 0.7em; color: #ccc;">IET Lab</span>
+            </div>
         </div>
+
         <div class="footer">
             <a href="/" class="btn-home">Kembali ke Home</a>
         </div>
