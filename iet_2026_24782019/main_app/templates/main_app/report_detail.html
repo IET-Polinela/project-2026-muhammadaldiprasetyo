@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Laporan - SENTRA-Lapor</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #2c3e50, #4ca1af); 
+            color: white; 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin: 0; 
+        }
+        .container { 
+            background: white; 
+            color: #333; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            width: 90%; 
+            max-width: 600px; 
+        }
+        h1 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .info-group { margin-bottom: 15px; }
+        .label { font-weight: bold; color: #7f8c8d; display: block; font-size: 0.9em; }
+        .value { font-size: 1.1em; color: #2c3e50; }
+        .btn-back { 
+            display: inline-block; 
+            margin-top: 20px; 
+            text-decoration: none; 
+            padding: 10px 20px; 
+            background: #2c3e50; 
+            color: white; 
+            border-radius: 5px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detail Laporan</h1>
+        
+        <div class="info-group">
+            <span class="label">Judul Laporan</span>
+            <span class="value">{{ report.title }}</span>
+        </div>
+
+        <div class="info-group">
+            <span class="label">Kategori</span>
+            <span class="value">{{ report.category }}</span>
+        </div>
+
+        <div class="info-group">
+            <span class="label">Lokasi</span>
+            <span class="value">{{ report.location }}</span>
+        </div>
+
+        <div class="info-group">
+            <span class="label">Deskripsi Lengkap</span>
+            <span class="value">{{ report.description }}</span>
+        </div>
+
+        <div class="info-group">
+            <span class="label">Status Saat Ini</span>
+            <span class="value"><strong>{{ report.get_status_display }}</strong></span>
+        </div>
+
+        <a href="{% url 'report_list' %}" class="btn-back"> Kembali ke Daftar</a>
+    </div>
+</body>
+</html>
