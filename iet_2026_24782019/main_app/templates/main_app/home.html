@@ -1,27 +1,23 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beranda - Lab 2 IET</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #2c3e50, #4ca1af); color: white; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0; }
-        .container { background: white; color: #333; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-width: 500px; text-align: center; }
-        h1 { color: #2c3e50; margin-bottom: 10px; }
-        p { font-size: 1.1em; color: #555; }
-        .nav-links { margin-top: 25px; }
-        .btn { text-decoration: none; padding: 10px 20px; background: #2c3e50; color: white; border-radius: 5px; transition: 0.3s; margin: 5px; display: inline-block; }
-        .btn:hover { background: #4ca1af; transform: translateY(-3px); }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Bandar Lampung</h1>
-        <p>Halo! Saya <strong>Aldi Ganteng Banget</strong>, mahasiswa Teknologi Rekayasa Internet POLINELA.</p>
-        <div class="nav-links">
-            <a href="/about/" class="btn">Tentang Saya</a>
-            <a href="/contacts/" class="btn">Hubungi Saya</a>
+{% extends 'base.html' %}
+
+{% block title %}Beranda - AGRO CITY{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm border-start border-success border-5">
+    <div class="container-fluid py-4">
+        <h1 class="display-5 fw-bold text-success">
+            <i class="bi bi-geo-alt-fill"></i> Lampung Tengah
+        </h1>
+        <p class="col-md-8 fs-4 text-secondary mt-3">
+            Halo! Saya <strong>Aldi Ganteng Banget</strong>, mahasiswa Teknologi Rekayasa Internet POLINELA. Selamat datang di <strong>AGRO CITY</strong>, sistem cerdas untuk melaporakan infrastruktur dan fasilitas agrikultur kota kita.
+        </p>
+        <hr class="my-4">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a href="{% url 'report_list' %}" class="btn btn-success btn-lg px-4 me-md-2 shadow-sm">
+                <i class="bi bi-card-list"></i> Lihat Daftar Laporan
+            </a>
+            <a href="{% url 'about' %}" class="btn btn-outline-success btn-lg px-4 shadow-sm">Tentang Saya</a>
         </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

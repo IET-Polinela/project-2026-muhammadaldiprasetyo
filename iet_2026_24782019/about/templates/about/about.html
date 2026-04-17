@@ -1,94 +1,30 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Aldi</title>
-    <style>
-        /* Menggunakan font sistem yang bersih */
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background-color: #fafafa; 
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-        }
-        
-        .card { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 24px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.04); 
-            width: 320px; 
-            text-align: left;
-            transition: transform 0.3s ease;
-        }
+{% extends 'base.html' %}
 
-        .card:hover { transform: translateY(-5px); }
+{% block title %}Tentang Saya - AGRO CITY{% endblock %}
 
-        .tag { 
-            font-size: 10px; 
-            font-weight: 800; 
-            letter-spacing: 1.5px; 
-            color: #007bff; 
-            text-transform: uppercase; 
-            margin-bottom: 12px; 
-            display: block;
-        }
-
-        h1 { 
-            font-size: 24px; 
-            color: #1a1a1a; 
-            margin: 0 0 16px 0; 
-            letter-spacing: -0.5px;
-        }
-
-        p { 
-            font-size: 15px; 
-            color: #555; 
-            line-height: 1.6; 
-            margin-bottom: 24px; 
-        }
-
-        b { color: #1a1a1a; }
-
-        .btn-back { 
-            display: inline-flex; 
-            align-items: center; 
-            color: #007bff; 
-            text-decoration: none; 
-            font-size: 14px; 
-            font-weight: 600; 
-            transition: 0.2s;
-        }
-
-        .btn-back:hover { opacity: 0.7; }
-
-        /* Garis dekoratif kecil */
-        .divider {
-            width: 40px;
-            height: 4px;
-            background: #007bff;
-            border-radius: 2px;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="card">
-        <div class="divider"></div>
-        <span class="tag">IET Student</span>
-        <h1>About Me</h1>
-        <p>
-            Saya <b>Aldi</b>, mahasiswa semester 4 di <b>POLINELA</b>. 
-            Fokus pada <i>Internet Engineering</i> & pengembangan web modern.
-        </p>
-        </p>
-        <a href="/" class="btn-back">← Back to Home</a>
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent p-0 mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-success text-decoration-none"><i class="bi bi-house-door"></i> Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">About</li>
+    </ol>
+</nav>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 border-start border-success border-5 rounded-4">
+            <div class="card-body p-5">
+                <span class="badge bg-success mb-3 px-3 py-2 text-uppercase letter-spacing-1">IET Student</span>
+                <h2 class="fw-bold text-success mb-3">About Me</h2>
+                <p class="fs-5 text-secondary lh-base mb-4">
+                    Saya <strong class="text-dark">Aldi</strong>, mahasiswa semester 4 di <strong class="text-dark">POLINELA</strong>. 
+                    Fokus pada <em class="text-dark">Internet Engineering</em> & pengembangan web modern.
+                </p>
+                <hr class="my-4 text-muted">
+                <a href="{% url 'home' %}" class="btn btn-outline-success fw-bold">
+                    <i class="bi bi-arrow-left me-2"></i> Back to Home
+                </a>
+            </div>
+        </div>
     </div>
-
-</body>
-</html>
+</div>
+{% endblock %}

@@ -1,87 +1,90 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Laporan - SENTRA-Lapor</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #2c3e50, #4ca1af); color: white; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0; padding: 20px; }
-        .container { background: white; color: #333; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); width: 95%; max-width: 900px; text-align: center; }
-        h1 { color: #2c3e50; margin-bottom: 5px; }
-        .city-tag { color: #666; margin-bottom: 20px; display: block; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: #f9f9f9; }
-        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; font-size: 0.85em; }
-        th { background-color: #2c3e50; color: white; text-align: center; }
-        .btn-group { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
-        .btn { text-decoration: none; padding: 6px 12px; background: #2c3e50; color: white; border-radius: 4px; transition: 0.3s; font-size: 0.8em; border: none; cursor: pointer; display: inline-block; }
-        .btn:hover { background: #4ca1af; transform: translateY(-2px); }
-        .btn-add { background: #27ae60; margin-bottom: 15px; padding: 10px 20px; }
-        .btn-verify { background: #f39c12; }
-        .btn-process { background: #3498db; }
-        .btn-success { background: #27ae60; }
-        .btn-danger { background: #c0392b; }
-        .status-badge { padding: 4px 8px; border-radius: 12px; font-size: 0.75em; font-weight: bold; text-transform: uppercase; border: 1px solid #ccc; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Daftar Laporan Masyarakat</h1>
-        <span class="city-tag">Lampung Tengah City</span>
-        
-        <a href="{% url 'add_report' %}" class="btn btn-add">+ Tambah Laporan Baru</a>
+{% extends 'base.html' %}
 
-        <table>
-            <thead>
+{% block title %}Daftar Laporan - AGRO CITY{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent p-0 mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none"><i class="bi bi-house-door"></i> Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Reports</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="fw-bold">Daftar Laporan</h2>
+</div>
+
+<div class="mb-4">
+    <a href="{% url 'add_report' %}" class="btn btn-primary shadow-sm">
+        <i class="bi bi-plus-circle"></i> Tambah Laporan
+    </a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0 table-responsive">
+        <table class="table align-middle mb-0">
+            <thead class="table-dark">
                 <tr>
-                    <th>Judul</th>
-                    <th>Kategori</th>
+                    <th class="ps-3">Judul</th>
                     <th>Lokasi</th>
-                    <th>Status</th>
-                    <th>Aksi & Workflow</th>
+                    <th class="text-center">Status</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 {% for report in reports %}
                 <tr>
-                    <td>{{ report.title }}</td>
-                    <td>{{ report.category }}</td>
+                    <td class="ps-3">{{ report.title }}</td>
                     <td>{{ report.location }}</td>
-                    <td style="text-align: center;">
-                        <span class="status-badge">{{ report.get_status_display }}</span>
+                    <td class="text-center">
+                        {% if report.status == 'REPORTED' %}
+                            <span class="badge bg-secondary">Reported</span>
+                        {% elif report.status == 'VERIFIED' %}
+                            <span class="badge bg-primary">Verified</span>
+                        {% elif report.status == 'IN PROGRESS' %}
+                            <span class="badge bg-warning text-dark">In Progress</span>
+                        {% elif report.status == 'RESOLVED' %}
+                            <span class="badge bg-success">Resolved</span>
+                        {% endif %}
                     </td>
                     <td>
-                        <div class="btn-group">
-                            <form action="{% url 'update_status' report.pk %}" method="POST" style="display:inline;">
+                        <div class="d-flex gap-1">
+                            {% if report.status != 'RESOLVED' %}
+                            <form action="{% url 'update_status' report.pk %}" method="POST" class="m-0" onsubmit="return confirm('Apakah Anda yakin ingin mengubah status laporan ini?');">
                                 {% csrf_token %}
                                 {% if report.status == 'REPORTED' %}
                                     <input type="hidden" name="status" value="VERIFIED">
-                                    <button type="submit" class="btn btn-verify">Verifikasi</button>
+                                    <button type="submit" class="btn btn-primary btn-sm">Verifikasi</button>
                                 {% elif report.status == 'VERIFIED' %}
                                     <input type="hidden" name="status" value="IN PROGRESS">
-                                    <button type="submit" class="btn btn-process">Proses</button>
+                                    <button type="submit" class="btn btn-warning btn-sm text-dark">Proses</button>
                                 {% elif report.status == 'IN PROGRESS' %}
                                     <input type="hidden" name="status" value="RESOLVED">
-                                    <button type="submit" class="btn btn-success">Selesai</button>
+                                    <button type="submit" class="btn btn-success btn-sm">Selesai</button>
                                 {% endif %}
                             </form>
-                            <a href="{% url 'report_detail' report.pk %}" class="btn">Detail</a>
-                            <a href="{% url 'update_report' report.pk %}" class="btn">Edit</a>
-                            <a href="{% url 'delete_report' report.pk %}" class="btn btn-danger">Hapus</a>
+                            {% endif %}
+                            
+                            <a href="{% url 'update_report' report.pk %}" class="btn btn-info btn-sm text-dark">Edit</a>
+                            
+                            <a href="{% url 'delete_report' report.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">Hapus</a>
                         </div>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="5" style="text-align: center;">Belum ada laporan masuk.</td>
+                    <td colspan="4" class="text-center py-5">
+                        <div class="text-muted">
+                            <i class="bi bi-folder-x" style="font-size: 3rem;"></i>
+                            <h5 class="mt-3">Belum ada laporan</h5>
+                            <p class="mb-3 text-secondary">Jadilah yang pertama melaporkan masalah infrastruktur di sekitarmu.</p>
+                            <a href="{% url 'add_report' %}" class="btn btn-primary px-4">Tambah laporan</a>
+                        </div>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
-        <div style="margin-top: 25px;">
-            <a href="{% url 'about' %}" class="btn">Tentang Saya</a>
-            <a href="{% url 'contact' %}" class="btn">Hubungi Saya</a>
-        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

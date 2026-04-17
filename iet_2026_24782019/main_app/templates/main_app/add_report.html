@@ -1,89 +1,74 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Laporan - Smart City</title>
-    <style>
-        /* Konsistensi dengan tema Lab 2 Aldi */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: linear-gradient(135deg, #2c3e50, #4ca1af); 
-            color: white; 
-            min-height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            margin: 0; 
-        }
-        .container { 
-            background: white; 
-            color: #333; 
-            padding: 40px; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
-            width: 100%;
-            max-width: 450px; 
-            text-align: center; 
-        }
-        h1 { color: #2c3e50; margin-bottom: 20px; font-size: 1.8em; }
-        p.subtitle { color: #666; margin-bottom: 30px; }
+{% extends 'base.html' %}
 
-        /* Styling Form Django agar tidak polos */
-        form p {
-            text-align: left;
-            margin-bottom: 15px;
-        }
-        form input, form textarea, form select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box; /* Agar padding tidak merusak lebar */
-            font-family: inherit;
-        }
-        form input:focus, form textarea:focus {
-            outline: none;
-            border-color: #4ca1af;
-            box-shadow: 0 0 5px rgba(76, 161, 175, 0.3);
-        }
+{% block title %}{{ title|default:"Buat Laporan" }} - AGRO CITY{% endblock %}
 
-        .btn-group { margin-top: 25px; }
-        .btn { 
-            text-decoration: none; 
-            padding: 12px 25px; 
-            border: none;
-            border-radius: 5px; 
-            transition: 0.3s; 
-            cursor: pointer;
-            font-weight: bold;
-            display: inline-block;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        .btn-save { background: #2c3e50; color: white; }
-        .btn-save:hover { background: #4ca1af; transform: translateY(-3px); }
-        
-        .btn-back { background: #ecf0f1; color: #7f8c8d; font-size: 0.9em; }
-        .btn-back:hover { background: #bdc3c7; color: #2c3e50; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>{{ title|default:"Buat Laporan" }}</h1>
-        <p class="subtitle">Silakan isi detail permasalahan kota di bawah ini.</p>
-        
-        <form method="POST">
-            {% csrf_token %}
-            
-            {{ form.as_p }}
-
-            <div class="btn-group">
-                <button type="submit" class="btn btn-save">Simpan Laporan</button>
-                <a href="{% url 'report_list' %}" class="btn btn-back">Batal & Kembali</a>
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent p-0 mb-4">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-success text-decoration-none"><i class="bi bi-house-door"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'report_list' %}" class="text-success text-decoration-none">Reports</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Tambah Laporan</li>
+    </ol>
+</nav>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow border-0 border-top border-success border-4">
+            <div class="card-header bg-white">
+                <h4 class="mb-0 text-success fw-bold">{{ title|default:"Buat Laporan Baru" }}</h4>
             </div>
-        </form>
+            <div class="card-body bg-light">
+                <p class="text-muted mb-4">Silakan isi detail permasalahan kota di bawah ini.</p>
+                
+                <form method="POST" id="reportForm">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label font-weight-bold text-dark">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% for error in field.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-success shadow-sm" id="btnSubmit">
+                            <span id="btnText"><i class="bi bi-save"></i> Simpan Laporan</span>
+                            <span id="btnLoading" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>
+                        <a href="{% url 'report_list' %}" class="btn btn-outline-secondary">Batal & Kembali</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>
+
+<script>
+    document.getElementById('reportForm').onsubmit = function() {
+        const btn = document.getElementById('btnSubmit');
+        const text = document.getElementById('btnText');
+        const loading = document.getElementById('btnLoading');
+        
+        btn.disabled = true;
+        text.innerText = "Mengirim...";
+        loading.classList.remove('d-none');
+    };
+</script>
+
+<style>
+    /* Styling agar input Django mengikuti Bootstrap */
+    input, textarea, select {
+        display: block; width: 100%; padding: .375rem .75rem; font-size: 1rem;
+        font-weight: 400; line-height: 1.5; color: #212529; background-color: #fff;
+        border: 1px solid #ced4da; border-radius: .375rem; transition: border-color .15s ease-in-out;
+    }
+    input:focus, textarea:focus, select:focus {
+        border-color: #198754; outline: 0; box-shadow: 0 0 0 .25rem rgba(25, 135, 84, .25);
+    }
+</style>
+{% endblock %}
