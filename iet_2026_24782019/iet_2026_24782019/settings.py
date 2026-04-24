@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'usermanagement_24782019',
     'main_app',
     'about',
     'contacts',
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'iet_2026_24782019.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'smartcity_db_aldi',
+        'NAME': 'smartcity_db_aldi_new',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
@@ -122,3 +123,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'usermanagement_24782019.User'
+
+# --- PENGATURAN REDIRECT AUTH ---
+# Setelah login berhasil, arahkan ke halaman utama (home)
+LOGIN_REDIRECT_URL = 'home'
+
+# Jika user mencoba akses halaman rahasia tanpa login, lempar ke sini
+LOGIN_URL = 'login'
+
+# Setelah logout, arahkan kembali ke halaman login
+LOGOUT_REDIRECT_URL = 'login'

@@ -3,21 +3,108 @@
 {% block title %}Beranda - AGRO CITY{% endblock %}
 
 {% block content %}
-<div class="p-5 mb-4 bg-white rounded-3 shadow-sm border-start border-success border-5">
-    <div class="container-fluid py-4">
-        <h1 class="display-5 fw-bold text-success">
-            <i class="bi bi-geo-alt-fill"></i> Lampung Tengah
-        </h1>
-        <p class="col-md-8 fs-4 text-secondary mt-3">
-            Halo! Saya <strong>Aldi Ganteng Banget</strong>, mahasiswa Teknologi Rekayasa Internet POLINELA. Selamat datang di <strong>AGRO CITY</strong>, sistem cerdas untuk melaporakan infrastruktur dan fasilitas agrikultur kota kita.
-        </p>
-        <hr class="my-4">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <a href="{% url 'report_list' %}" class="btn btn-success btn-lg px-4 me-md-2 shadow-sm">
-                <i class="bi bi-card-list"></i> Lihat Daftar Laporan
-            </a>
-            <a href="{% url 'about' %}" class="btn btn-outline-success btn-lg px-4 shadow-sm">Tentang Saya</a>
+<style>
+    :root { --agro-green: #13854e; }
+    .hero-section { background: linear-gradient(135deg, #ffffff 0%, #f8fffb 100%); border-left: 8px solid var(--agro-green); }
+    .feature-card { transition: all 0.3s ease; border: none; border-radius: 15px; }
+    .feature-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .icon-box { width: 60px; height: 60px; background: rgba(19, 133, 78, 0.1); color: var(--agro-green); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+    .stat-card { background: var(--agro-green); color: white; border-radius: 15px; padding: 20px; text-align: center; }
+</style>
+
+<div class="p-5 mb-5 hero-section rounded-4 shadow-sm">
+    <div class="container-fluid py-2">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="badge bg-success mb-2 px-3 py-2 rounded-pill">Smart City</span>
+                <h1 class="display-4 fw-bold text-success mb-3">
+                    <i class="bi bi-geo-alt-fill"></i> Agro City Lampung Tengah
+                </h1>
+                <p class="fs-5 text-secondary">
+                    Halo! Saya <strong>Aldi Ganteng Banget</strong>, mahasiswa Teknologi Rekayasa Internet <strong>POLINELA</strong>. 
+                    Selamat datang di sistem monitoring cerdas untuk infrastruktur dan fasilitas agrikultur kota kita.
+                </p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
+                    <a href="{% url 'report_list' %}" class="btn btn-success btn-lg px-5 shadow-sm">
+                        <i class="bi bi- megaphone-fill me-2"></i>Mulai Lapor
+                    </a>
+                    <a href="{% url 'about' %}" class="btn btn-outline-success btn-lg px-4 border-2">Profil Pengembang</a>
+                </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-block text-center">
+                <i class="bi bi-tree-fill text-success" style="font-size: 10rem; opacity: 0.2;"></i>
+            </div>
         </div>
     </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-3">
+        <div class="stat-card shadow-sm">
+            <h2 class="fw-bold mb-0">24/7</h2>
+            <p class="small mb-0">Monitoring Aktif</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card shadow-sm" style="background: #28a745;">
+            <h2 class="fw-bold mb-0">IoT</h2>
+            <p class="small mb-0">Terintegrasi Sensor</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card shadow-sm" style="background: #218838;">
+            <h2 class="fw-bold mb-0">100%</h2>
+            <p class="small mb-0">Transparansi Data</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card shadow-sm" style="background: #1e7e34;">
+            <h2 class="fw-bold mb-0">POLINELA</h2>
+            <p class="small mb-0">Dukungan Akademik</p>
+        </div>
+    </div>
+</div>
+
+<h3 class="fw-bold text-success mb-4 text-center">Layanan Unggulan</h3>
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card h-100 feature-card p-4 shadow-sm">
+            <div class="icon-box"><i class="bi bi-shield-check"></i></div>
+            <h5 class="fw-bold">Pelaporan Cepat</h5>
+            <p class="text-muted small">Laporkan kerusakan infrastruktur agrikultur secara real-time hanya dengan beberapa klik.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 feature-card p-4 shadow-sm">
+            <div class="icon-box"><i class="bi bi-graph-up-arrow"></i></div>
+            <h5 class="fw-bold">Analisis Data</h5>
+            <p class="text-muted small">Visualisasi data laporan untuk membantu pemerintah mengambil keputusan yang tepat sasaran.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 feature-card p-4 shadow-sm">
+            <div class="icon-box"><i class="bi bi-people-fill"></i></div>
+            <h5 class="fw-bold">Partisipasi Publik</h5>
+            <p class="text-muted small">Citizen Loggg memungkinkan warga berperan aktif dalam pembangunan kota berkelanjutan.</p>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-info border-0 rounded-4 p-4 shadow-sm" style="background: #e8f4fd;">
+    <div class="d-flex align-items-center">
+        <div class="fs-1 me-4 text-primary"><i class="bi bi-info-circle-fill"></i></div>
+        <div>
+            <h5 class="fw-bold mb-1">Butuh Bantuan Teknis?</h5>
+            <p class="mb-0 text-secondary">Jika Anda mengalami kendala saat login atau registrasi, silakan hubungi tim IT Support Agro City melalui menu <a href="{% url 'contact' %}" class="fw-bold">Kontak Kami</a>.</p>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5 text-muted pb-4">
+    <small>
+        <strong>Politeknik Negeri Lampung</strong><br>
+        Jurusan Teknologi Informasi | Program Studi Teknologi Rekayasa Internet<br>
+        Muhammad Aldi Prasetyo © 2026 - NPM: 24782019
+    </small>
 </div>
 {% endblock %}

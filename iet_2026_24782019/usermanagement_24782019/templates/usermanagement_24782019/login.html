@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - AGRO CITY{% endblock %}
+
+{% block content %}
+<style>
+    :root { --agro-green: #13854e; }
+    .login-container { display: flex; align-items: center; justify-content: center; min-height: 70vh; }
+    .login-card { width: 100%; max-width: 500px; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+    .card-header-custom { background-color: var(--agro-green); color: white; padding: 30px; text-align: center; }
+    .form-control-custom { height: 50px; border-radius: 10px; padding-left: 45px; }
+    .input-wrapper { position: relative; margin-bottom: 20px; }
+    .input-icon { position: absolute; left: 15px; top: 13px; color: var(--agro-green); z-index: 10; }
+    .btn-agro { background-color: #007bff; color: white; height: 50px; font-weight: bold; border-radius: 10px; transition: 0.3s; border: none; }
+    .btn-agro:hover { background-color: #0056b3; transform: translateY(-2px); }
+</style>
+
+<div class="login-container">
+    <div class="login-card shadow-lg">
+        <div class="card-header-custom">
+            <h3 class="mb-0 fw-bold"><i class="bi bi-shield-lock-fill"></i> Login Smart City</h3>
+            <p class="mb-0 small">Agro City Infrastructure System</p>
+        </div>
+        
+        <div class="card-body p-5">
+            <form method="post">
+                {% csrf_token %}
+                <div class="input-wrapper">
+                    <i class="bi bi-person-fill input-icon"></i>
+                    <input type="text" name="username" class="form-control form-control-custom" placeholder="Masukkan username" required>
+                </div>
+
+                <div class="input-wrapper">
+                    <i class="bi bi-key-fill input-icon"></i>
+                    <input type="password" name="password" class="form-control form-control-custom" placeholder="Masukkan password" required>
+                </div>
+
+                <button type="submit" class="btn btn-agro w-100 mt-2 shadow">Masuk Sekarang</button>
+            </form>
+            
+            <div class="text-center mt-4 border-top pt-3">
+                <p class="text-muted mb-1 small">Belum punya akun?</p>
+                <a href="{% url 'register' %}" class="fw-bold text-decoration-none" style="color: var(--agro-green);">Daftar Akun Citizen</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4 text-muted small">
+    <strong>Politeknik Negeri Lampung</strong><br>
+    2026 Muhammad Aldi Prasetyo | 24782019
+</div>
+{% endblock %}
