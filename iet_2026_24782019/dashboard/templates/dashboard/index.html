@@ -1,0 +1,90 @@
+{% extends 'base.html' %} <!-- Ubah dari 'main_app/base.html' menjadi 'base.html' -->
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📊 Dashboard Smart City</h2>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white fw-bold">Status Laporan (Doughnut)</div>
+                <div class="card-body">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white fw-bold">Jumlah per Kategori (Bar)</div>
+                <div class="card-body">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabel 5 Laporan Terbaru -->
+    <div class="card shadow border-0 mt-4">
+        <div class="card-header bg-dark text-white">5 Laporan Terbaru</div>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Kategori</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in recent_reported %}
+                    <tr>
+                        <td>{{ report.title }}</td>
+                        <td>{{ report.category }}</td>
+                        <td><span class="badge bg-warning text-dark">{{ report.status }}</span></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center py-3">Belum ada data. Silakan isi database Anda!</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    fetch('/api/dashboard-stats/') 
+        .then(response => response.json())
+        .then(data => {
+            new Chart(document.getElementById('statusChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: data.status_labels,
+                    datasets: [{
+                        data: data.status_values,
+                        backgroundColor: ['#28a745', '#ffc107', '#dc3545', '#17a2b8']
+                    }]
+                }
+            });
+
+            new Chart(document.getElementById('categoryChart'), {
+                type: 'bar',
+                data: {
+                    labels: data.category_labels,
+                    datasets: [{
+                        label: 'Jumlah Laporan',
+                        data: data.category_values,
+                        backgroundColor: '#198754'
+                    }]
+                }
+            });
+        });
+</script>
+{% endblock %}

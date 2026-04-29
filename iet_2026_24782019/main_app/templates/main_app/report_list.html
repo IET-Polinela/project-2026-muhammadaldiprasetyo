@@ -13,11 +13,7 @@
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm mb-4" role="alert">
-            {% if message.tags == 'error' %}
-                <i class="bi bi-exclamation-octagon-fill me-2"></i>
-            {% else %}
-                <i class="bi bi-check-circle-fill me-2"></i>
-            {% endif %}
+            <i class="bi {% if message.tags == 'error' %}bi-exclamation-octagon-fill{% else %}bi-check-circle-fill{% endif %} me-2"></i>
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -26,6 +22,12 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="fw-bold">Daftar Laporan</h2>
+    <div class="col-md-4">
+        <div class="input-group shadow-sm">
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+            <input type="text" id="searchInput" class="form-control border-start-0 ps-0 shadow-none" placeholder="Cari laporan...">
+        </div>
+    </div>
 </div>
 
 <div class="mb-4">
@@ -48,7 +50,7 @@
                     <th>Aksi</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="reportTableBody">
                 {% for report in reports %}
                 <tr>
                     <td class="ps-3 fw-bold">{{ report.title }}</td>
@@ -64,7 +66,6 @@
                             <span class="badge bg-success">Resolved</span>
                         {% endif %}
                     </td>
-                    
                     <td>
                         <div class="d-flex gap-1">
                             <a href="{% url 'report_detail' report.pk %}" class="btn btn-outline-dark btn-sm">
@@ -87,7 +88,6 @@
                                     {% endif %}
                                 </form>
                                 {% endif %}
-                                
                                 <a href="{% url 'update_report' report.pk %}" class="btn btn-info btn-sm text-dark">Edit</a>
                                 <a href="{% url 'delete_report' report.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Hapus data ini?');">Hapus</a>
                             {% endif %}
@@ -109,4 +109,74 @@
         </table>
     </div>
 </div>
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const tableBody = document.getElementById('reportTableBody');
+    const isAdmin = {{ user.is_admin|yesno:"true,false" }};
+    const csrfToken = "{{ csrf_token }}";
+
+    let timeout = null;
+
+    searchInput.addEventListener('input', function() {
+        clearTimeout(timeout);
+        const query = this.value.trim();
+
+        timeout = setTimeout(() => {
+            fetch(`/api/search-reports/?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    tableBody.innerHTML = '';
+                    if (data.results && data.results.length > 0) {
+                        data.results.forEach(report => {
+                            let badge = '';
+                            let actionStatus = '';
+
+                            // Badge Logic
+                            if (report.status === 'REPORTED') badge = '<span class="badge bg-secondary">Reported</span>';
+                            else if (report.status === 'VERIFIED') badge = '<span class="badge bg-primary">Verified</span>';
+                            else if (report.status === 'IN PROGRESS') badge = '<span class="badge bg-warning text-dark">In Progress</span>';
+                            else if (report.status === 'RESOLVED') badge = '<span class="badge bg-success">Resolved</span>';
+
+                            // Form Status Logic
+                            if (isAdmin && report.status !== 'RESOLVED') {
+                                let btnText = '', btnClass = '', nextStatus = '';
+                                if (report.status === 'REPORTED') { btnText = 'Verifikasi'; btnClass = 'btn-primary'; nextStatus = 'VERIFIED'; }
+                                else if (report.status === 'VERIFIED') { btnText = 'Proses'; btnClass = 'btn-warning text-dark'; nextStatus = 'IN PROGRESS'; }
+                                else if (report.status === 'IN PROGRESS') { btnText = 'Selesai'; btnClass = 'btn-success'; nextStatus = 'RESOLVED'; }
+
+                                // PERBAIKAN DI SINI: Tambah /reports/ agar sesuai urls.py
+                                actionStatus = `
+                                    <form action="/reports/update-status/${report.id}/" method="POST" class="m-0" onsubmit="return confirm('Ubah status laporan ini?');">
+                                        <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
+                                        <input type="hidden" name="status" value="${nextStatus}">
+                                        <button type="submit" class="btn ${btnClass} btn-sm">${btnText}</button>
+                                    </form>`;
+                            }
+
+                            // Render baris tabel
+                            tableBody.innerHTML += `
+                                <tr>
+                                    <td class="ps-3 fw-bold">${report.title}</td>
+                                    <td>${report.location}</td>
+                                    <td class="text-center">${badge}</td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <a href="/reports/${report.id}/" class="btn btn-outline-dark btn-sm"><i class="bi bi-eye"></i> Lihat</a>
+                                            ${actionStatus}
+                                            ${isAdmin ? `
+                                                <a href="/reports/update/${report.id}/" class="btn btn-info btn-sm text-dark">Edit</a>
+                                                <a href="/reports/delete/${report.id}/" class="btn btn-danger btn-sm" onclick="return confirm('Hapus data ini?');">Hapus</a>
+                                            ` : ''}
+                                        </div>
+                                    </td>
+                                </tr>`;
+                        });
+                    } else {
+                        tableBody.innerHTML = '<tr><td colspan="4" class="text-center py-5 text-muted">Data tidak ditemukan.</td></tr>';
+                    }
+                });
+        }, 300);
+    });
+</script>
 {% endblock %}
