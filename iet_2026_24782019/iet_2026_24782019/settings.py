@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    
+    'rest_framework_simplejwt',
+
     # App Kustom Mahasiswa
     'usermanagement_24782019',
     'main_app',
@@ -110,10 +111,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-# UPDATE UNTUK LAB 7: Mengatur agar Faker menggunakan Bahasa Indonesia
 LANGUAGE_CODE = 'id-ID'
 
-# UPDATE UNTUK LAB 7: Menyesuaikan waktu dengan Waktu Indonesia Barat
 TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
@@ -135,7 +134,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'usermanagement_24782019.User'
 
 # --- PENGATURAN REDIRECT AUTH ---
-# Setelah login berhasil, arahkan ke dashboard untuk melihat grafik Lab 7
 LOGIN_REDIRECT_URL = 'home'
 
 # Jika user mencoba akses halaman rahasia tanpa login, lempar ke sini
@@ -143,3 +141,14 @@ LOGIN_URL = 'login'
 
 # Setelah logout, arahkan kembali ke halaman login
 LOGOUT_REDIRECT_URL = 'login'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}

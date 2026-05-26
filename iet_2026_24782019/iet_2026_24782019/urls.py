@@ -2,24 +2,29 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from usermanagement_24782019 import views as user_views 
-# Import router yang tadi kita buat di main_app
-from main_app.urls import router 
+from main_app.urls import router
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from usermanagement_24782019.api_views import RegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    # 1. JALUR API LAB 9 (Sesuai Gambar)
-    # Ini akan membuat alamat: http://127.0.0.1:8000/api/report/
+
     path('api/', include(router.urls)), 
+
+    # Endpoint Token JWT (Login & Refresh)
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api/register/', RegisterView.as_view(), name='api_register'),
     
-    # 2. JALUR HOME & WEB (Tanpa Prefix)
-    # Ini akan membuat alamat: http://127.0.0.1:8000/ membuka Home kamu
+    path('api-auth/', include('rest_framework.urls')),
+    
     path('', include('main_app.urls')),
     
     path('about/', include('about.urls')),
     path('contacts/', include('contacts.urls')),
     
-    # Login & Logout
+    # Login & Logout (Session Base Bawaan / Web View)
     path('login/', auth_views.LoginView.as_view(
         template_name='usermanagement_24782019/login.html',
         redirect_authenticated_user=True 
