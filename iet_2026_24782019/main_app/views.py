@@ -1,15 +1,18 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import JsonResponse 
-from django.db.models import Count 
+from django.db.models import Count, Q
 
 # IMPORT FORM KUSTOM KAMU DI SINI
 from usermanagement_24782019.forms import CitizenRegistrationForm 
+from .forms import ReportForm
 from .models import Report
 
 # ==========================================
@@ -44,21 +47,22 @@ class RegisterView(SuccessMessageMixin, CreateView):
 # 2. LAB 7 VIEWS (DASHBOARD & AJAX API)
 # ==========================================
 
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
     """Menampilkan halaman Dashboard Utama"""
     template_name = 'dashboard/index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Menampilkan tabel 5 laporan terakhir (REPORTED) dan 5 selesai (RESOLVED)
-        context['recent_reported'] = Report.objects.filter(status='REPORTED').order_by('-id')[:5]
-        context['recent_resolved'] = Report.objects.filter(status='RESOLVED').order_by('-id')[:5]
+        visible_reports = Report.objects.visible_to(self.request.user)
+        context['recent_reported'] = visible_reports.order_by('-created_at')[:5]
         return context
 
+@login_required
 def dashboard_stats_api(request):
     """Mengembalikan data statistik (JSON) untuk Chart.js"""
-    status_data = Report.objects.values('status').annotate(total=Count('status'))
-    category_data = Report.objects.values('category').annotate(total=Count('category'))
+    visible_reports = Report.objects.visible_to(request.user)
+    status_data = visible_reports.values('status').annotate(total=Count('status'))
+    category_data = visible_reports.values('category').annotate(total=Count('category'))
     
     data = {
         'status_labels': [item['status'] for item in status_data],
@@ -68,10 +72,13 @@ def dashboard_stats_api(request):
     }
     return JsonResponse(data)
 
+@login_required
 def report_search_api(request):
     """Fitur Live Search: Mencari data tanpa reload halaman"""
     query = request.GET.get('q', '')
-    reports = Report.objects.filter(title__icontains=query) | Report.objects.filter(category__icontains=query)
+    reports = Report.objects.visible_to(request.user).filter(
+        Q(title__icontains=query) | Q(category__icontains=query)
+    ).order_by('-updated_at')
     
     results = []
     for r in reports:
@@ -81,6 +88,14 @@ def report_search_api(request):
             'category': r.category,
             'status': r.status,
             'location': r.location,
+            'can_edit': r.can_edit(request.user),
+            'can_delete': r.can_delete(request.user),
+            'can_submit': r.can_submit(request.user),
+            'can_verify': r.can_verify(request.user),
+            'can_update_status': r.can_update_status(request.user),
+            'next_status': r.next_workflow_status(),
+            'next_status_label': r.next_workflow_label(),
+            'next_status_action_label': r.next_workflow_action_label(),
         })
     return JsonResponse({'results': results})
 
@@ -91,15 +106,21 @@ def report_search_api(request):
 class HomeView(TemplateView):
     template_name = 'main_app/home.html'
 
-class ReportListView(ListView):
+class ReportListView(LoginRequiredMixin, ListView):
     model = Report
     template_name = 'main_app/report_list.html'
     context_object_name = 'reports'
 
-class ReportDetailView(DetailView):
+    def get_queryset(self):
+        return Report.objects.visible_to(self.request.user).order_by('-updated_at')
+
+class ReportDetailView(LoginRequiredMixin, DetailView):
     model = Report
     template_name = 'main_app/report_detail.html'
     context_object_name = 'report'
+
+    def get_queryset(self):
+        return Report.objects.visible_to(self.request.user)
 
     def render_to_response(self, context, **kwargs):
         # Jika request datang dari AJAX (untuk Modal Detail), kirim JSON
@@ -118,57 +139,103 @@ class ReportDetailView(DetailView):
 # 4. ADMIN CRUD (CREATE, UPDATE, DELETE)
 # ==========================================
 
-class ReportCreateView(SuccessMessageMixin, CreateView):
+class ReportCreateView(LoginRequiredMixin, CreateView):
     model = Report
-    fields = ['title', 'category', 'description', 'location']
+    form_class = ReportForm
     template_name = 'main_app/add_report.html'
     success_url = reverse_lazy('report_list')
-    success_message = "Laporan baru berhasil ditambahkan!"
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_admin:
-            messages.error(request, "Akses Ditolak! Hanya Admin yang boleh menambah laporan.")
-            return redirect('report_list')
-        return super().dispatch(request, *args, **kwargs)
-
-class ReportUpdate_24782019(SuccessMessageMixin, UpdateView):
-    model = Report 
-    fields = ['title', 'category', 'description', 'location']
-    template_name = 'main_app/add_report.html'
-    success_url = reverse_lazy('report_list')
-    success_message = "Laporan berhasil diperbarui!"
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_admin:
-            messages.error(request, "Akses Ditolak! Citizen tidak boleh mengedit.")
-            return redirect('report_list')
-        return super().dispatch(request, *args, **kwargs)
-
-class ReportDelete_24782019(DeleteView):
-    model = Report
-    template_name = 'main_app/delete_confirm.html'
-    success_url = reverse_lazy('report_list')
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_admin:
-            messages.error(request, "Akses Ditolak! Citizen tidak boleh menghapus.")
+        if request.user.is_authenticated and request.user.is_admin:
+            messages.error(request, "Admin tidak dapat membuat laporan citizen.")
             return redirect('report_list')
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        messages.success(self.request, "Laporan berhasil dihapus!")
+        form.instance.reporter = self.request.user
+        if self.request.POST.get('action') == 'submit':
+            form.instance.status = Report.Status.REPORTED
+            messages.success(self.request, "Laporan berhasil diajukan.")
+        else:
+            form.instance.status = Report.Status.DRAFT
+            messages.success(self.request, "Laporan berhasil disimpan sebagai draft.")
         return super().form_valid(form)
 
-class ReportUpdateStatusView(View):
+class ReportUpdate_24782019(LoginRequiredMixin, UpdateView):
+    model = Report 
+    form_class = ReportForm
+    template_name = 'main_app/add_report.html'
+    success_url = reverse_lazy('report_list')
+
+    def get_queryset(self):
+        if self.request.user.is_admin:
+            return Report.objects.none()
+        return Report.objects.filter(
+            reporter=self.request.user,
+            status=Report.Status.DRAFT,
+        )
+
+    def form_valid(self, form):
+        if self.request.POST.get('action') == 'submit':
+            form.instance.status = Report.Status.REPORTED
+            messages.success(self.request, "Draft berhasil diajukan dan kini terkunci.")
+        else:
+            form.instance.status = Report.Status.DRAFT
+            messages.success(self.request, "Perubahan draft berhasil disimpan.")
+        return super().form_valid(form)
+
+class ReportDelete_24782019(LoginRequiredMixin, DeleteView):
+    model = Report
+    template_name = 'main_app/delete_confirm.html'
+    success_url = reverse_lazy('report_list')
+
+    def get_queryset(self):
+        if self.request.user.is_admin:
+            return Report.objects.none()
+        return Report.objects.filter(
+            reporter=self.request.user,
+            status=Report.Status.DRAFT,
+        )
+
+    def form_valid(self, form):
+        messages.success(self.request, "Draft laporan berhasil dihapus.")
+        return super().form_valid(form)
+
+class ReportSubmitView(LoginRequiredMixin, View):
     def post(self, request, pk):
-        if not request.user.is_authenticated or not request.user.is_admin:
-            messages.error(request, "Akses Ditolak!")
+        report = get_object_or_404(
+            Report,
+            pk=pk,
+            reporter=request.user,
+            status=Report.Status.DRAFT,
+        )
+        if request.user.is_admin:
+            messages.error(request, "Admin tidak dapat mengajukan laporan citizen.")
+            return redirect('report_list')
+
+        report.status = Report.Status.REPORTED
+        report.save(update_fields=['status', 'updated_at'])
+        messages.success(request, "Draft berhasil diajukan dan kini terkunci.")
+        return redirect('report_list')
+
+class ReportUpdateStatusView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        if not request.user.is_admin:
+            messages.error(request, "Hanya admin yang dapat memverifikasi laporan.")
             return redirect('report_list')
         
-        report = get_object_or_404(Report, pk=pk)
-        report.status = request.POST.get('status')
-        report.save()
-        messages.success(request, "Status laporan berhasil diubah!")
+        report = get_object_or_404(
+            Report.objects.visible_to(request.user),
+            pk=pk,
+        )
+        next_status = report.next_workflow_status()
+        if request.POST.get('status') != next_status:
+            messages.error(request, "Status laporan harus maju sesuai urutan workflow.")
+            return redirect('report_list')
+
+        report.status = next_status
+        report.save(update_fields=['status', 'updated_at'])
+        messages.success(request, f"Status laporan berhasil diubah menjadi {report.get_status_display()}.")
         return redirect('report_list')
 
 # ==========================================

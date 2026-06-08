@@ -7,17 +7,17 @@
     <ol class="breadcrumb bg-transparent p-0 mb-4">
         <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-success text-decoration-none"><i class="bi bi-house-door"></i> Home</a></li>
         <li class="breadcrumb-item"><a href="{% url 'report_list' %}" class="text-success text-decoration-none">Reports</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Tambah Laporan</li>
+        <li class="breadcrumb-item active" aria-current="page">{% if object %}Edit Draft{% else %}Tambah Laporan{% endif %}</li>
     </ol>
 </nav>
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card shadow border-0 border-top border-success border-4">
             <div class="card-header bg-white">
-                <h4 class="mb-0 text-success fw-bold">{{ title|default:"Buat Laporan Baru" }}</h4>
+                <h4 class="mb-0 text-success fw-bold">{% if object %}Edit Draft Laporan{% else %}Buat Laporan Baru{% endif %}</h4>
             </div>
             <div class="card-body bg-light">
-                <p class="text-muted mb-4">Silakan isi detail permasalahan kota di bawah ini.</p>
+                <p class="text-muted mb-4">Simpan sebagai draft untuk diedit kembali, atau ajukan laporan untuk dikirim ke admin. Setelah diajukan, laporan tidak dapat diedit atau dihapus.</p>
                 
                 <form method="POST" id="reportForm">
                     {% csrf_token %}
@@ -35,30 +35,20 @@
                     </div>
                     {% endfor %}
 
-                    <div class="d-grid gap-2 mt-4">
-                        <button type="submit" class="btn btn-success shadow-sm" id="btnSubmit">
-                            <span id="btnText"><i class="bi bi-save"></i> Simpan Laporan</span>
-                            <span id="btnLoading" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                    <div class="d-grid d-sm-flex gap-2 mt-4">
+                        <button type="submit" name="action" value="draft" class="btn btn-outline-success shadow-sm flex-fill">
+                            <i class="bi bi-save"></i> Simpan Draft
                         </button>
-                        <a href="{% url 'report_list' %}" class="btn btn-outline-secondary">Batal & Kembali</a>
+                        <button type="submit" name="action" value="submit" class="btn btn-success shadow-sm flex-fill" onclick="return confirm('Ajukan laporan sekarang? Setelah diajukan laporan tidak dapat diedit atau dihapus.');">
+                            <i class="bi bi-send-fill"></i> Ajukan Laporan
+                        </button>
+                        <a href="{% url 'report_list' %}" class="btn btn-outline-secondary">Batal</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById('reportForm').onsubmit = function() {
-        const btn = document.getElementById('btnSubmit');
-        const text = document.getElementById('btnText');
-        const loading = document.getElementById('btnLoading');
-        
-        btn.disabled = true;
-        text.innerText = "Mengirim...";
-        loading.classList.remove('d-none');
-    };
-</script>
 
 <style>
     /* Styling agar input Django mengikuti Bootstrap */

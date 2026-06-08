@@ -23,6 +23,7 @@ urlpatterns = [
     path('reports/add/', views.ReportCreateView.as_view(), name='add_report'),
     path('reports/update/<int:pk>/', views.ReportUpdate_24782019.as_view(), name='update_report'),
     path('reports/delete/<int:pk>/', views.ReportDelete_24782019.as_view(), name='delete_report'),
+    path('reports/submit/<int:pk>/', views.ReportSubmitView.as_view(), name='submit_report'),
     path('reports/update-status/<int:pk>/', views.ReportUpdateStatusView.as_view(), name='update_status'),
     
     # Halaman Statis & Autentikasi

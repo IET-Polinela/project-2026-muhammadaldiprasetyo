@@ -1,30 +1,324 @@
 {% extends 'base.html' %}
 
-{% block title %}Tentang Saya - AGRO CITY{% endblock %}
+{% block title %}Tentang Pengembang - AGRO CITY{% endblock %}
+
+{% block extra_head %}
+<style>
+    .about-page {
+        --about-green: #006948;
+        --about-dark: #16352a;
+        --about-soft: #e8f5ee;
+        --about-muted: #617168;
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+    .about-hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(2rem, 5vw, 4.5rem);
+        background: linear-gradient(135deg, #ffffff 0%, #eef8f2 100%);
+        border: 1px solid rgba(0, 105, 72, 0.12);
+        border-radius: 2rem;
+        box-shadow: 0 24px 70px rgba(18, 72, 51, 0.08);
+    }
+    .about-hero::before,
+    .about-hero::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    .about-hero::before {
+        width: 280px;
+        height: 280px;
+        top: -150px;
+        right: -90px;
+        background: rgba(0, 105, 72, 0.08);
+    }
+    .about-hero::after {
+        width: 170px;
+        height: 170px;
+        right: 17%;
+        bottom: -110px;
+        background: rgba(133, 248, 196, 0.18);
+    }
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.85rem;
+        color: var(--about-green);
+        background: var(--about-soft);
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+    .about-title {
+        max-width: 720px;
+        color: var(--about-dark);
+        font-size: clamp(2.25rem, 5vw, 4.25rem);
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+    }
+    .about-lead {
+        max-width: 660px;
+        color: var(--about-muted);
+        font-size: 1.05rem;
+        line-height: 1.8;
+    }
+    .profile-card {
+        position: relative;
+        z-index: 1;
+        padding: 1.75rem;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(0, 105, 72, 0.12);
+        border-radius: 1.5rem;
+        box-shadow: 0 18px 45px rgba(18, 72, 51, 0.1);
+        backdrop-filter: blur(10px);
+    }
+    .profile-avatar {
+        width: 84px;
+        height: 84px;
+        display: grid;
+        place-items: center;
+        color: #ffffff;
+        background: linear-gradient(145deg, #00855d, #005238);
+        border: 5px solid #e3f4ea;
+        border-radius: 1.4rem;
+        font-size: 1.65rem;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+    }
+    .status-dot {
+        width: 9px;
+        height: 9px;
+        display: inline-block;
+        background: #39a86b;
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba(57, 168, 107, 0.14);
+    }
+    .profile-meta {
+        padding-top: 1rem;
+        margin-top: 1.25rem;
+        border-top: 1px solid rgba(0, 105, 72, 0.1);
+    }
+    .profile-meta-item {
+        display: flex;
+        gap: 0.8rem;
+        align-items: center;
+        color: var(--about-muted);
+        margin-top: 0.8rem;
+    }
+    .profile-meta-item i {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        flex: 0 0 34px;
+        color: var(--about-green);
+        background: var(--about-soft);
+        border-radius: 0.7rem;
+    }
+    .section-card {
+        height: 100%;
+        padding: 1.75rem;
+        background: #ffffff;
+        border: 1px solid rgba(0, 105, 72, 0.1);
+        border-radius: 1.4rem;
+        box-shadow: 0 12px 35px rgba(18, 72, 51, 0.055);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .section-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 45px rgba(18, 72, 51, 0.09);
+    }
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        color: var(--about-green);
+        background: var(--about-soft);
+        border-radius: 1rem;
+        font-size: 1.25rem;
+    }
+    .skill-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.55rem 0.85rem;
+        color: #315848;
+        background: #f1f8f4;
+        border: 1px solid #dcece3;
+        border-radius: 999px;
+        font-size: 0.86rem;
+        font-weight: 600;
+    }
+    .about-cta {
+        padding: clamp(1.5rem, 4vw, 2.5rem);
+        color: #ffffff;
+        background: linear-gradient(135deg, #006948, #004c35);
+        border-radius: 1.6rem;
+        box-shadow: 0 18px 45px rgba(0, 82, 56, 0.2);
+    }
+    @media (max-width: 991.98px) {
+        .profile-card {
+            margin-top: 2rem;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb bg-transparent p-0 mb-4">
-        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-success text-decoration-none"><i class="bi bi-house-door"></i> Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">About</li>
-    </ol>
-</nav>
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6 col-lg-5">
-        <div class="card shadow-sm border-0 border-start border-success border-5 rounded-4">
-            <div class="card-body p-5">
-                <span class="badge bg-success mb-3 px-3 py-2 text-uppercase letter-spacing-1">IET Student</span>
-                <h2 class="fw-bold text-success mb-3">About Me</h2>
-                <p class="fs-5 text-secondary lh-base mb-4">
-                    Saya <strong class="text-dark">Aldi</strong>, mahasiswa semester 4 di <strong class="text-dark">POLINELA</strong>. 
-                    Fokus pada <em class="text-dark">Internet Engineering</em> & pengembangan web modern.
-                </p>
-                <hr class="my-4 text-muted">
-                <a href="{% url 'home' %}" class="btn btn-outline-success fw-bold">
-                    <i class="bi bi-arrow-left me-2"></i> Back to Home
+<div class="about-page">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a href="{% url 'home' %}" class="text-decoration-none">
+                    <i class="bi bi-house-door me-1"></i>Home
                 </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">About</li>
+        </ol>
+    </nav>
+
+    <section class="about-hero">
+        <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-7 position-relative z-1">
+                <span class="eyebrow mb-4">
+                    <i class="bi bi-code-slash"></i>
+                    Developer Profile
+                </span>
+                <h1 class="about-title fw-bold mb-4">
+                    Membangun solusi digital yang <span class="text-primary">berguna dan berkelanjutan.</span>
+                </h1>
+                <p class="about-lead mb-4">
+                    Saya Muhammad Aldi Prasetyo, mahasiswa Internet Engineering di Politeknik Negeri Lampung.
+                    Saya tertarik mengembangkan aplikasi web modern yang menghubungkan teknologi, data, dan
+                    kebutuhan masyarakat.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'contact' %}" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold">
+                        Hubungi Saya <i class="bi bi-arrow-up-right ms-2"></i>
+                    </a>
+                    <a href="{% url 'report_list' %}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+                        Lihat Project
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="profile-card">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="profile-avatar">MA</div>
+                        <div>
+                            <div class="d-flex align-items-center gap-2 small text-muted mb-1">
+                                <span class="status-dot"></span>
+                                Aktif belajar dan berkarya
+                            </div>
+                            <h2 class="h4 fw-bold mb-1">Muhammad Aldi Prasetyo</h2>
+                            <p class="text-muted mb-0">Internet Engineering Student</p>
+                        </div>
+                    </div>
+                    <div class="profile-meta">
+                        <div class="profile-meta-item">
+                            <i class="bi bi-mortarboard-fill"></i>
+                            <span>Semester 4, Politeknik Negeri Lampung</span>
+                        </div>
+                        <div class="profile-meta-item">
+                            <i class="bi bi-person-vcard-fill"></i>
+                            <span>NIM 24782019</span>
+                        </div>
+                        <div class="profile-meta-item">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span>Lampung, Indonesia</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <section class="py-5">
+        <div class="text-center mx-auto mb-4" style="max-width: 680px;">
+            <span class="eyebrow mb-3">What I Focus On</span>
+            <h2 class="fw-bold mb-3" style="color: var(--about-dark);">Fokus pengembangan</h2>
+            <p class="text-muted mb-0">Menggabungkan fondasi jaringan, pengembangan web, dan pengolahan data dalam solusi yang mudah digunakan.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <article class="section-card">
+                    <div class="feature-icon mb-4"><i class="bi bi-window-stack"></i></div>
+                    <h3 class="h5 fw-bold">Web Development</h3>
+                    <p class="text-muted lh-lg mb-0">Membangun aplikasi web responsif dengan Django, API, dan antarmuka yang berorientasi pada pengguna.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="section-card">
+                    <div class="feature-icon mb-4"><i class="bi bi-router-fill"></i></div>
+                    <h3 class="h5 fw-bold">Internet Engineering</h3>
+                    <p class="text-muted lh-lg mb-0">Mempelajari jaringan, integrasi sistem, serta teknologi IoT untuk menghadirkan konektivitas yang andal.</p>
+                </article>
+            </div>
+            <div class="col-md-4">
+                <article class="section-card">
+                    <div class="feature-icon mb-4"><i class="bi bi-bar-chart-fill"></i></div>
+                    <h3 class="h5 fw-bold">Data & Monitoring</h3>
+                    <p class="text-muted lh-lg mb-0">Mengubah data menjadi informasi yang jelas melalui dashboard, visualisasi, dan pelaporan real-time.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="row g-4 pb-5">
+        <div class="col-lg-7">
+            <div class="section-card">
+                <span class="eyebrow mb-3">Toolkit</span>
+                <h2 class="h3 fw-bold mb-3" style="color: var(--about-dark);">Teknologi yang dipelajari</h2>
+                <p class="text-muted lh-lg mb-4">Saya terus memperkuat kemampuan teknis melalui praktik, eksperimen, dan pengembangan project nyata.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="skill-chip"><i class="bi bi-filetype-py"></i>Python</span>
+                    <span class="skill-chip"><i class="bi bi-boxes"></i>Django</span>
+                    <span class="skill-chip"><i class="bi bi-database-fill"></i>MySQL</span>
+                    <span class="skill-chip"><i class="bi bi-braces"></i>REST API</span>
+                    <span class="skill-chip"><i class="bi bi-bootstrap-fill"></i>Bootstrap</span>
+                    <span class="skill-chip"><i class="bi bi-git"></i>Git</span>
+                    <span class="skill-chip"><i class="bi bi-hdd-network-fill"></i>Networking</span>
+                    <span class="skill-chip"><i class="bi bi-cpu-fill"></i>IoT</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="section-card">
+                <span class="eyebrow mb-3">Principle</span>
+                <h2 class="h3 fw-bold mb-3" style="color: var(--about-dark);">Cara saya bekerja</h2>
+                <p class="text-muted lh-lg mb-4">Saya percaya produk yang baik lahir dari proses yang terstruktur, komunikasi yang jelas, dan kemauan untuk terus belajar.</p>
+                <div class="d-grid gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="feature-icon flex-shrink-0"><i class="bi bi-check2-circle"></i></div>
+                        <span class="fw-semibold">Sederhana, jelas, dan mudah digunakan</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="feature-icon flex-shrink-0"><i class="bi bi-lightbulb-fill"></i></div>
+                        <span class="fw-semibold">Terbuka terhadap ide dan evaluasi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-cta d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-4">
+        <div>
+            <p class="small fw-bold text-uppercase mb-2 opacity-75">Let's collaborate</p>
+            <h2 class="h3 fw-bold mb-2">Punya ide yang ingin dikembangkan?</h2>
+            <p class="mb-0 text-white-50">Mari berdiskusi dan membangun solusi digital yang bermanfaat.</p>
+        </div>
+        <a href="{% url 'contact' %}" class="btn btn-light text-primary rounded-pill px-4 py-2 fw-bold flex-shrink-0">
+            Buka Kontak <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+    </section>
 </div>
 {% endblock %}

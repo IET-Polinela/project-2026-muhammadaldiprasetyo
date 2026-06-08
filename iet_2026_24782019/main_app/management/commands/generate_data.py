@@ -38,7 +38,7 @@ class Command(BaseCommand):
         }
         
         # Sesuaikan dengan STATUS_CHOICES di models.py Anda
-        status_choices = ['REPORTED', 'VERIFIED', 'IN PROGRESS', 'RESOLVED']
+        status_choices = ['REPORTED', 'VERIFIED', 'IN_PROGRESS', 'RESOLVED']
 
         for _ in range(total):
             category = random.choice(list(context_data.keys()))

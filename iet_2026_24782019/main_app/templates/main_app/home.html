@@ -1,110 +1,372 @@
 {% extends 'base.html' %}
 
-{% block title %}Beranda - AGRO CITY{% endblock %}
+{% block title %}Agro City | Masa Depan Pertanian Perkotaan{% endblock %}
+
+{% block extra_head %}
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Manrope:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#d9e8c8",
+                    "primary-fixed": "#85f8c4",
+                    "primary-fixed-dim": "#68dba9",
+                    "surface-variant": "#e5f1e9",
+                    "on-tertiary": "#ffffff",
+                    "secondary-container": "#d9e8c8",
+                    "on-secondary-fixed": "#131f0b",
+                    "surface-container-high": "#e0eee5",
+                    "on-tertiary-fixed": "#002115",
+                    "on-surface-variant": "#3d4a42",
+                    "tertiary-fixed-dim": "#a8cfbc",
+                    "inverse-surface": "#18352a",
+                    "on-secondary": "#ffffff",
+                    "tertiary-container": "#577c6b",
+                    "surface-dim": "#d8e8de",
+                    "on-tertiary-fixed-variant": "#294e3f",
+                    "inverse-on-surface": "#f2fbf5",
+                    "surface": "#f7fbf8",
+                    "on-secondary-container": "#5b694f",
+                    "on-primary-fixed-variant": "#005137",
+                    "surface-container-highest": "#d6e8dc",
+                    "on-surface": "#17261f",
+                    "tertiary": "#3f6353",
+                    "outline-variant": "#bccac0",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#006c4a",
+                    "on-primary": "#ffffff",
+                    "primary": "#006948",
+                    "on-tertiary-container": "#f5fff7",
+                    "on-secondary-fixed-variant": "#3e4b33",
+                    "on-primary-fixed": "#002114",
+                    "error": "#ba1a1a",
+                    "secondary-fixed-dim": "#bdcbad",
+                    "surface-container-low": "#f0f8f3",
+                    "inverse-primary": "#68dba9",
+                    "on-error": "#ffffff",
+                    "surface-container": "#e8f3ec",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#00855d",
+                    "secondary": "#55624a",
+                    "on-primary-container": "#f5fff7",
+                    "background": "#f7fbf8",
+                    "surface-bright": "#ffffff",
+                    "tertiary-fixed": "#c3ecd7",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#6d7a72",
+                    "on-background": "#17261f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "80px",
+                    "sm": "12px",
+                    "md": "24px",
+                    "lg": "48px",
+                    "margin": "32px",
+                    "gutter": "24px",
+                    "base": "8px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "label-md": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "headline-xl-mobile": ["Hanken Grotesk"],
+                    "label-sm": ["Manrope"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Manrope"],
+                    "headline-xl": ["Hanken Grotesk"],
+                    "body-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "14px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f7fbf8;
+            color: #17261f;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .soft-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-element.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(133, 248, 196, 0.1) 0%, rgba(0, 105, 72, 0.05) 100%);
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
-<style>
-    :root { --agro-green: #13854e; }
-    .hero-section { background: linear-gradient(135deg, #ffffff 0%, #f8fffb 100%); border-left: 8px solid var(--agro-green); }
-    .feature-card { transition: all 0.3s ease; border: none; border-radius: 15px; }
-    .feature-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-    .icon-box { width: 60px; height: 60px; background: rgba(19, 133, 78, 0.1); color: var(--agro-green); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
-    .stat-card { background: var(--agro-green); color: white; border-radius: 15px; padding: 20px; text-align: center; }
-</style>
-
-<div class="p-5 mb-5 hero-section rounded-4 shadow-sm">
-    <div class="container-fluid py-2">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <span class="badge bg-success mb-2 px-3 py-2 rounded-pill">Smart City</span>
-                <h1 class="display-4 fw-bold text-success mb-3">
-                    <i class="bi bi-geo-alt-fill"></i> Agro City Lampung Tengah
-                </h1>
-                <p class="fs-5 text-secondary">
-                    Halo! Saya <strong>Aldi Ganteng Banget</strong>, mahasiswa Teknologi Rekayasa Internet <strong>POLINELA</strong>. 
-                    Selamat datang di sistem monitoring cerdas untuk infrastruktur dan fasilitas agrikultur kota kita.
-                </p>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
-                    <a href="{% url 'report_list' %}" class="btn btn-success btn-lg px-5 shadow-sm">
-                        <i class="bi bi- megaphone-fill me-2"></i>Mulai Lapor
-                    </a>
-                    <a href="{% url 'about' %}" class="btn btn-outline-success btn-lg px-4 border-2">Profil Pengembang</a>
-                </div>
-            </div>
-            <div class="col-lg-4 d-none d-lg-block text-center">
-                <i class="bi bi-tree-fill text-success" style="font-size: 10rem; opacity: 0.2;"></i>
-            </div>
-        </div>
-    </div>
+<main>
+<!-- Hero Section -->
+<section class="relative pt-xl pb-xl px-margin overflow-hidden hero-gradient">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-lg items-center">
+<div class="z-10 text-left">
+<span class="inline-block py-xs px-md bg-primary text-on-primary font-label-sm rounded-full mb-md">SMART CITY INITIATIVE</span>
+<h1 class="font-headline-xl text-headline-xl text-on-background mb-md">Agro City: <span class="text-primary">Masa Depan Pertanian Perkotaan</span>.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-lg max-w-lg">
+                        Selamat datang di sistem monitoring cerdas untuk infrastruktur dan fasilitas agrikultur kota kita. Membangun harmoni antara teknologi IoT dan ketahanan pangan lokal.
+                    </p>
+<div class="flex flex-wrap gap-md">
+<a href="{% url 'add_report' %}" class="bg-primary text-on-primary px-lg py-md rounded-lg font-label-md soft-shadow hover:scale-105 transition-all inline-flex items-center gap-2">
+                            Mulai Lapor <span class="material-symbols-outlined">send</span>
+</a>
+<a href="{% url 'about' %}" class="bg-white text-primary border border-primary px-lg py-md rounded-lg font-label-md hover:bg-primary/5 transition-all inline-flex items-center justify-center">
+                            Profil Pengembang
+                        </a>
 </div>
-
-<div class="row g-4 mb-5">
-    <div class="col-md-3">
-        <div class="stat-card shadow-sm">
-            <h2 class="fw-bold mb-0">24/7</h2>
-            <p class="small mb-0">Monitoring Aktif</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="stat-card shadow-sm" style="background: #28a745;">
-            <h2 class="fw-bold mb-0">IoT</h2>
-            <p class="small mb-0">Terintegrasi Sensor</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="stat-card shadow-sm" style="background: #218838;">
-            <h2 class="fw-bold mb-0">100%</h2>
-            <p class="small mb-0">Transparansi Data</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="stat-card shadow-sm" style="background: #1e7e34;">
-            <h2 class="fw-bold mb-0">POLINELA</h2>
-            <p class="small mb-0">Dukungan Akademik</p>
-        </div>
-    </div>
+<div class="mt-lg grid grid-cols-2 sm:grid-cols-4 gap-md">
+<div class="text-center p-sm bg-white/50 rounded-xl border border-primary/10">
+<div class="font-headline-md text-primary">24/7</div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">Monitoring Aktif</div>
 </div>
-
-<h3 class="fw-bold text-success mb-4 text-center">Layanan Unggulan</h3>
-<div class="row g-4 mb-5">
-    <div class="col-md-4">
-        <div class="card h-100 feature-card p-4 shadow-sm">
-            <div class="icon-box"><i class="bi bi-shield-check"></i></div>
-            <h5 class="fw-bold">Pelaporan Cepat</h5>
-            <p class="text-muted small">Laporkan kerusakan infrastruktur agrikultur secara real-time hanya dengan beberapa klik.</p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 feature-card p-4 shadow-sm">
-            <div class="icon-box"><i class="bi bi-graph-up-arrow"></i></div>
-            <h5 class="fw-bold">Analisis Data</h5>
-            <p class="text-muted small">Visualisasi data laporan untuk membantu pemerintah mengambil keputusan yang tepat sasaran.</p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 feature-card p-4 shadow-sm">
-            <div class="icon-box"><i class="bi bi-people-fill"></i></div>
-            <h5 class="fw-bold">Partisipasi Publik</h5>
-            <p class="text-muted small">Citizen Loggg memungkinkan warga berperan aktif dalam pembangunan kota berkelanjutan.</p>
-        </div>
-    </div>
+<div class="text-center p-sm bg-white/50 rounded-xl border border-primary/10">
+<div class="font-headline-md text-primary">IoT</div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">Terintegrasi Sensor</div>
 </div>
-
-<div class="alert alert-info border-0 rounded-4 p-4 shadow-sm" style="background: #e8f4fd;">
-    <div class="d-flex align-items-center">
-        <div class="fs-1 me-4 text-primary"><i class="bi bi-info-circle-fill"></i></div>
-        <div>
-            <h5 class="fw-bold mb-1">Butuh Bantuan Teknis?</h5>
-            <p class="mb-0 text-secondary">Jika Anda mengalami kendala saat login atau registrasi, silakan hubungi tim IT Support Agro City melalui menu <a href="{% url 'contact' %}" class="fw-bold">Kontak Kami</a>.</p>
-        </div>
-    </div>
+<div class="text-center p-sm bg-white/50 rounded-xl border border-primary/10">
+<div class="font-headline-md text-primary">100%</div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">Transparansi Data</div>
 </div>
-
-<div class="text-center mt-5 text-muted pb-4">
-    <small>
-        <strong>Politeknik Negeri Lampung</strong><br>
-        Jurusan Teknologi Informasi | Program Studi Teknologi Rekayasa Internet<br>
-        Muhammad Aldi Prasetyo © 2026 - NPM: 24782019
-    </small>
+<div class="text-center p-sm bg-white/50 rounded-xl border border-primary/10">
+<div class="font-headline-md text-primary">POLINELA</div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">Dukungan Akademik</div>
 </div>
+</div>
+</div>
+<div class="relative h-[500px] lg:h-[600px] reveal-element active">
+<div class="absolute top-0 right-0 w-[90%] h-[90%] rounded-[40px] overflow-hidden soft-shadow border-8 border-white">
+<img alt="Lush urban agriculture" class="w-full h-full object-cover" data-alt="A futuristic urban greenhouse integrated into city skyscrapers, with vibrant green vertical gardens and glowing IoT sensors monitoring the plants. Sunlight filters through glass panels, highlighting a mix of high-tech hydroponics and natural growth. The aesthetic is clean, vibrant, and eco-tech." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8hCGN5bfa4pm-SkljqudMYncZn1awieTPXcGYxQG645hxh8kzSAx5UC7ihUmsjr_FkkLmkgdGt2rP6mZ1WXoN5syS_bJiLXavC99dFO1qRdoROma25pF4hXqf-oeRpH1-L8yDpnUvAYBZvB5e8vsnWQkTuHJVhW-rXHD1cNqCzrCyqDtgcDzDBgj3iEaLXwCKtUOCgtahD1EPLJuBTWw2_TbZqcbpOxXSJQKFQbBV3NJWjTguzWPDZ01G_BugAYCZaQJ6zknpgayJ"/>
+</div>
+<div class="absolute bottom-10 left-0 glass-card p-md rounded-xl soft-shadow max-w-xs animate-bounce" style="animation-duration: 5s;">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-10 h-10 bg-primary-fixed rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">sensors</span>
+</div>
+<span class="font-label-md">Real-time IoT Feed</span>
+</div>
+<p class="font-body-sm text-on-surface-variant">Optimal humidity detected in Zone A-12 vertical farms.</p>
+</div>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="absolute top-[-200px] right-[-100px] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
+</section>
+<!-- Features Bento Grid - Core Capabilities -->
+<section class="py-xl px-margin bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-lg reveal-element">
+<h2 class="font-headline-lg text-headline-lg mb-sm text-primary">Layanan Unggulan Agro City</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl mx-auto">Menghubungkan warga dengan infrastruktur pertanian melalui teknologi pintar untuk ekosistem perkotaan yang berkelanjutan.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Feature 1: Pelaporan Cepat -->
+<div class="md:col-span-8 bg-white p-lg rounded-[32px] soft-shadow reveal-element flex flex-col md:flex-row gap-md items-center overflow-hidden border border-outline-variant/20">
+<div class="flex-1">
+<div class="w-12 h-12 bg-primary-fixed rounded-xl flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-primary">report_problem</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs">Pelaporan Cepat</h3>
+<p class="font-body-md text-on-surface-variant">Laporkan kerusakan infrastruktur agrikultur secara real-time hanya dengan beberapa klik. Memastikan respon cepat dari tim teknis.</p>
+</div>
+<div class="flex-1 w-full h-56 bg-primary-container/10 rounded-2xl flex items-center justify-center p-md overflow-hidden relative">
+<img alt="Quick report interface" class="rounded-xl shadow-lg w-full h-full object-cover transform hover:scale-110 transition-transform duration-500" data-alt="A clean mobile app interface showing a simplified reporting form for urban farm maintenance. Icons for irrigation, lighting, and plant health are visible. The UI is professional with a green and white color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8x1B5IK7G4UmcH66qV4Yp5fNz9bL3J-FzcBbPTXZ_-Yfbwm85X68NJ5rbkiKaOwkYk-S7rnqQRqbTBX2-iItn7xk4LLr7AfqXx93Wrt6epwIq9eX3JQLDr7DJ5drLrF49Nfo915LP26f7sFGAXyyqBrgEm9c42BTAJei1F7ppX3zkYh85L89ukLukyL69vdH0uF44oNVIIuX5Ntu29qJQx78zdFAm5JBO98cfnMYC1dtTMk-mk1IyGFKjavR6LTL1VtDVJsenZnVc"/>
+</div>
+</div>
+<!-- Feature 2: Smart Monitoring -->
+<div class="md:col-span-4 bg-primary p-lg rounded-[32px] soft-shadow reveal-element text-on-primary">
+<div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-white">monitoring</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs">Analisis Data</h3>
+<p class="font-body-md opacity-90">Visualisasi data laporan untuk membantu pemerintah mengambil keputusan yang tepat sasaran dan berbasis bukti.</p>
+<div class="mt-lg pt-lg border-t border-white/10">
+<div class="flex items-center gap-sm">
+<span class="font-headline-md">Live</span>
+<span class="font-label-sm opacity-70">Decision Support System</span>
+</div>
+</div>
+</div>
+<!-- Feature 3: Partisipasi Publik -->
+<div class="md:col-span-4 bg-white p-lg rounded-[32px] soft-shadow reveal-element border border-outline-variant/30">
+<div class="w-12 h-12 bg-secondary-fixed rounded-xl flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-on-secondary-fixed">groups</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs">Partisipasi Publik</h3>
+<p class="font-body-md text-on-surface-variant">Citizen Log memungkinkan warga berperan aktif dalam pembangunan kota berkelanjutan dan pengawasan fasilitas publik.</p>
+</div>
+<!-- Feature 4: Sustainable Harvest -->
+<div class="md:col-span-8 bg-secondary-container/20 p-lg rounded-[32px] soft-shadow reveal-element flex flex-col md:flex-row gap-md items-center border border-primary/10">
+<div class="flex-1 order-2 md:order-1">
+<img alt="Community garden" class="rounded-2xl shadow-md w-full h-56 object-cover" data-alt="A lush community garden on a city rooftop with modern wooden planters and diverse vegetables. People are interacting in the background. Soft daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqDgQDSFQPiqEWjKrXfesLQuOlbrz1AZYuc9hjlhQvZp94hNfYZFD3BAvvXSzWSFVasfag9wTNafzmHign9xnGYl_fYSuxNXA4Zn1hJ0mO9y_sSEN5MKV34xXGJNnXT-VWX-GguPJ4txc4S03wSZwKTGJlowfayNP3btXPBwZJvmR4RxXvr-og3_8CL_gCdz4fg6oux5NnwLQt0kCrRksy9wumUEpa765iiG6kXI4nB8ttz_RkuMv0oGR9qFAXyxiGs3Be5ltSrj8G"/>
+</div>
+<div class="flex-1 order-1 md:order-2">
+<div class="w-12 h-12 bg-tertiary-fixed rounded-xl flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-tertiary">eco</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-xs">Panen Berkelanjutan</h3>
+<p class="font-body-md text-on-surface-variant">Optimasi hasil tani perkotaan dengan manajemen air dan nutrisi otomatis melalui jaringan sensor pintar kami.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Partner Section -->
+<section class="py-xl px-margin">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-lg items-center">
+<div class="reveal-element">
+<h2 class="font-headline-lg text-headline-lg mb-md text-on-background">Didukung oleh <span class="text-primary">Instansi Akademik &amp; Pemerintahan</span>.</h2>
+<p class="font-body-md text-on-surface-variant mb-lg">Agro City adalah hasil kolaborasi strategis untuk menciptakan solusi teknologi yang aplikatif bagi tantangan ketahanan pangan modern.</p>
+<div class="flex flex-wrap gap-lg opacity-80 grayscale hover:grayscale-0 transition-all duration-500 items-center">
+<div class="font-bold text-headline-md text-on-surface">POLINELA</div>
+<div class="font-bold text-headline-md text-on-surface">SMART CITY DIV</div>
+<div class="font-bold text-headline-md text-on-surface">AGRI-TECH</div>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-md reveal-element">
+<div class="bg-surface-container p-lg rounded-2xl border border-primary/10 soft-shadow relative">
+<div class="absolute -top-4 -left-4 w-12 h-12 bg-primary rounded-full flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-on-primary">format_quote</span>
+</div>
+<p class="font-body-lg text-body-lg mb-md italic text-primary">"Agro City bukan sekadar aplikasi, ini adalah langkah nyata digitalisasi sektor agrikultur di wilayah perkotaan kita."</p>
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 bg-primary-fixed-dim rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-fixed-variant">person</span>
+</div>
+<div>
+<h4 class="font-label-md">Aldi Ganteng Banget</h4>
+<p class="font-label-sm text-on-surface-variant">Pengembang Sistem, POLINELA</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-xl px-margin">
+<div class="max-w-7xl mx-auto bg-primary rounded-[48px] p-lg md:p-[80px] text-center relative overflow-hidden shadow-2xl">
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<div class="absolute top-0 left-0 w-64 h-64 bg-primary-fixed rounded-full blur-[120px]"></div>
+<div class="absolute bottom-0 right-0 w-96 h-96 bg-secondary-fixed rounded-full blur-[150px]"></div>
+</div>
+<div class="relative z-10">
+<h2 class="font-headline-xl text-headline-xl text-white mb-md">Wujudkan Kota <span class="text-primary-fixed">Hijau &amp; Cerdas</span> Hari Ini</h2>
+<p class="font-body-lg text-body-lg text-white/80 mb-lg max-w-2xl mx-auto">Bergabunglah dalam revolusi pertanian perkotaan. Laporkan, pantau, dan tumbuh bersama Agro City.</p>
+<div class="flex flex-col sm:flex-row justify-center gap-md">
+<a href="{% url 'add_report' %}" class="bg-white text-primary px-xl py-md rounded-full font-label-md hover:scale-105 transition-all shadow-lg inline-flex items-center justify-center">Mulai Sekarang</a>
+<a href="{% url 'about' %}" class="bg-primary-container/20 text-white border border-white/30 px-xl py-md rounded-full font-label-md hover:bg-white/10 transition-all inline-flex items-center justify-center">Pelajari Lebih Lanjut</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-xl border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-7xl mx-auto px-margin py-lg">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 mb-md">
+<span class="material-symbols-outlined text-primary text-2xl">park</span>
+<span class="font-headline-md text-headline-md font-bold text-primary block">Agro City</span>
+</div>
+<p class="font-body-sm text-on-surface-variant max-w-xs">Membangun masa depan teknologi lingkungan melalui desain yang cerdas dan inklusif.</p>
+</div>
+<div>
+<h4 class="font-label-md text-primary mb-md">Sistem</h4>
+<ul class="space-y-sm">
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Dashboard Monitoring</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Data Laporan</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Peta Fasilitas</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Log Warga</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-primary mb-md">Informasi</h4>
+<ul class="space-y-sm">
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Panduan Pengguna</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Standar Layanan</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Keamanan Data</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Open Data</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-primary mb-md">Kontak</h4>
+<ul class="space-y-sm">
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Bantuan Teknis</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Pengaduan</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Email Kami</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-primary transition-all" href="#">Lokasi Kantor</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-margin py-md border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-sm">
+<span class="font-body-sm text-on-surface-variant">© 2024 Agro City Project. Powered by POLINELA.</span>
+<div class="flex gap-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">language</span></a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+</footer>
+<script>
+        // Reveal on scroll logic
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-element').forEach(el => observer.observe(el));
+    </script>
 {% endblock %}

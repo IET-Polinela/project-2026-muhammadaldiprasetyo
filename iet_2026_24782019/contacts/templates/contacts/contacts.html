@@ -1,77 +1,280 @@
 {% extends 'base.html' %}
 
-{% block title %}Kontak - AGRO CITY{% endblock %}
+{% block title %}Kontak Pengembang - AGRO CITY{% endblock %}
+
+{% block extra_head %}
+<style>
+    .contact-page {
+        --contact-green: #006948;
+        --contact-dark: #16352a;
+        --contact-soft: #e8f5ee;
+        --contact-muted: #617168;
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+    .contact-hero {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(2.25rem, 6vw, 5rem);
+        color: #ffffff;
+        background:
+            radial-gradient(circle at 85% 15%, rgba(133, 248, 196, 0.22), transparent 30%),
+            linear-gradient(135deg, #006948 0%, #004b34 100%);
+        border-radius: 2rem;
+        box-shadow: 0 24px 70px rgba(0, 82, 56, 0.2);
+    }
+    .contact-hero::after {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        right: -80px;
+        bottom: -130px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 50%;
+        box-shadow: 0 0 0 35px rgba(255, 255, 255, 0.035), 0 0 0 70px rgba(255, 255, 255, 0.025);
+    }
+    .contact-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.85rem;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+    .contact-title {
+        max-width: 760px;
+        font-size: clamp(2.25rem, 5vw, 4.25rem);
+        line-height: 1.05;
+        letter-spacing: -0.045em;
+    }
+    .contact-intro {
+        max-width: 650px;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 1.05rem;
+        line-height: 1.8;
+    }
+    .contact-card {
+        height: 100%;
+        padding: 1.75rem;
+        background: #ffffff;
+        border: 1px solid rgba(0, 105, 72, 0.1);
+        border-radius: 1.4rem;
+        box-shadow: 0 14px 40px rgba(18, 72, 51, 0.065);
+    }
+    .primary-contact-card {
+        padding: clamp(1.75rem, 4vw, 3rem);
+        background: linear-gradient(145deg, #ffffff, #f1f8f4);
+    }
+    .contact-icon {
+        width: 52px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        flex: 0 0 52px;
+        color: var(--contact-green);
+        background: var(--contact-soft);
+        border-radius: 1rem;
+        font-size: 1.3rem;
+    }
+    .email-address {
+        color: var(--contact-dark);
+        font-size: clamp(1rem, 2.3vw, 1.45rem);
+        font-weight: 700;
+        overflow-wrap: anywhere;
+    }
+    .availability {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        color: #285b45;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    .availability-dot {
+        width: 10px;
+        height: 10px;
+        background: #39a86b;
+        border-radius: 50%;
+        box-shadow: 0 0 0 5px rgba(57, 168, 107, 0.13);
+    }
+    .social-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        height: 100%;
+        padding: 1.25rem;
+        color: inherit;
+        background: #ffffff;
+        border: 1px solid rgba(0, 105, 72, 0.1);
+        border-radius: 1.2rem;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(18, 72, 51, 0.05);
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .social-card:hover {
+        color: inherit;
+        border-color: rgba(0, 105, 72, 0.3);
+        transform: translateY(-4px);
+        box-shadow: 0 18px 40px rgba(18, 72, 51, 0.09);
+    }
+    .social-card .arrow {
+        margin-left: auto;
+        color: var(--contact-green);
+        transition: transform 0.25s ease;
+    }
+    .social-card:hover .arrow {
+        transform: translate(3px, -3px);
+    }
+    .detail-row {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(0, 105, 72, 0.09);
+    }
+    .detail-row:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+    .detail-row:first-of-type {
+        padding-top: 0;
+    }
+    .response-note {
+        padding: 1rem 1.15rem;
+        color: #315848;
+        background: var(--contact-soft);
+        border-radius: 1rem;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb bg-transparent p-0 mb-4">
-        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-success text-decoration-none"><i class="bi bi-house-door"></i> Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Contact</li>
-    </ol>
-</nav>
-<div class="row justify-content-center mt-4">
-    <div class="col-md-7 col-lg-6">
-        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-            <div class="card-header bg-success text-white py-3 text-center border-0">
-                <h4 class="mb-0 fw-bold"><i class="bi bi-person-lines-fill me-2"></i> Kontak Aldi Ganteng</h4>
-            </div>
-            
-            <div class="card-body p-4">
-                <div class="list-group list-group-flush">
-                    
-                    <div class="list-group-item d-flex justify-content-between align-items-center py-3 px-0">
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-instagram fs-2 text-success me-3"></i>
-                            <div>
-                                <h6 class="mb-0 fw-bold text-dark">Instagram</h6>
-                                <small class="text-muted">@mhmmdaldiprstyo_</small>
-                            </div>
-                        </div>
-                        <a href="https://www.instagram.com/mhmmdaldiprstyo_?igsh=MWZtcnUxamc5OGN6bw==" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 fw-bold shadow-sm">Kunjungi</a>
-                    </div>
+<div class="contact-page">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a href="{% url 'home' %}" class="text-decoration-none">
+                    <i class="bi bi-house-door me-1"></i>Home
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Contact</li>
+        </ol>
+    </nav>
 
-                    <div class="list-group-item d-flex justify-content-between align-items-center py-3 px-0">
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-tiktok fs-2 text-dark me-3"></i>
-                            <div>
-                                <h6 class="mb-0 fw-bold text-dark">TikTok</h6>
-                                <small class="text-muted">@prstyo06_</small>
-                            </div>
-                        </div>
-                        <a href="https://www.tiktok.com/@prstyo06_?_r=1&_t=ZS-94gVNxq400K" target="_blank" class="btn btn-sm btn-dark rounded-pill px-3 fw-bold shadow-sm">Kunjungi</a>
-                    </div>
+    <section class="contact-hero mb-5">
+        <div class="position-relative z-1">
+            <span class="contact-eyebrow mb-4">
+                <i class="bi bi-chat-dots-fill"></i>
+                Get In Touch
+            </span>
+            <h1 class="contact-title fw-bold mb-4">Mari terhubung dan membicarakan ide yang menarik.</h1>
+            <p class="contact-intro mb-0">
+                Terbuka untuk diskusi project, kolaborasi akademik, dan pertukaran ide seputar web development,
+                networking, serta teknologi IoT.
+            </p>
+        </div>
+    </section>
 
-                    <div class="list-group-item d-flex justify-content-between align-items-center py-3 px-0">
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-envelope-fill fs-2 text-warning me-3"></i>
-                            <div>
-                                <h6 class="mb-0 fw-bold text-dark">Email</h6>
-                                <small class="text-muted">24782019@student.polinela.ac.id</small>
-                            </div>
-                        </div>
-                        <a href="mailto:24782019@student.polinela.ac.id" class="btn btn-sm btn-warning text-dark rounded-pill px-4 fw-bold shadow-sm">Kirim</a>
+    <section class="row g-4 mb-5">
+        <div class="col-lg-7">
+            <div class="contact-card primary-contact-card">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="contact-icon"><i class="bi bi-envelope-paper-fill"></i></div>
+                    <div>
+                        <p class="small text-uppercase fw-bold text-primary mb-1">Email utama</p>
+                        <p class="text-muted mb-0">Kanal terbaik untuk menghubungi saya</p>
                     </div>
-
-                    <div class="list-group-item d-flex justify-content-between align-items-center py-3 px-0">
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-geo-alt-fill fs-2 text-danger me-3"></i>
-                            <div>
-                                <h6 class="mb-0 fw-bold text-dark">Lokasi</h6>
-                                <small class="text-muted">Politeknik Negeri Lampung</small>
-                            </div>
-                        </div>
-                        <span class="badge bg-light text-secondary border">IET Lab</span>
-                    </div>
-
+                </div>
+                <a href="mailto:24782019@student.polinela.ac.id" class="email-address text-decoration-none">
+                    24782019@student.polinela.ac.id
+                </a>
+                <p class="text-muted lh-lg my-4">
+                    Kirimkan pesan singkat mengenai topik atau kebutuhan Anda. Saya akan membalas sejelas dan secepat mungkin.
+                </p>
+                <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+                    <a href="mailto:24782019@student.polinela.ac.id" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold">
+                        Kirim Email <i class="bi bi-send-fill ms-2"></i>
+                    </a>
+                    <span class="availability">
+                        <span class="availability-dot"></span>
+                        Terbuka untuk berdiskusi
+                    </span>
                 </div>
             </div>
-            
-            <div class="card-footer bg-white border-0 text-center pb-4 pt-0">
-                <a href="{% url 'home' %}" class="btn btn-outline-success rounded-pill px-4 fw-bold">
-                    <i class="bi bi-house-door me-2"></i> Kembali ke Home
+        </div>
+
+        <div class="col-lg-5">
+            <div class="contact-card">
+                <p class="small text-uppercase fw-bold text-primary mb-4">Informasi</p>
+                <div class="detail-row">
+                    <div class="contact-icon"><i class="bi bi-person-fill"></i></div>
+                    <div>
+                        <h2 class="h6 fw-bold mb-1">Muhammad Aldi Prasetyo</h2>
+                        <p class="text-muted mb-0">Internet Engineering Student</p>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                    <div>
+                        <h2 class="h6 fw-bold mb-1">Politeknik Negeri Lampung</h2>
+                        <p class="text-muted mb-0">Bandar Lampung, Indonesia</p>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="contact-icon"><i class="bi bi-clock-fill"></i></div>
+                    <div>
+                        <h2 class="h6 fw-bold mb-1">Waktu respons</h2>
+                        <p class="text-muted mb-0">Umumnya dalam 1-2 hari</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+            <div>
+                <p class="small text-uppercase fw-bold text-primary mb-2">Social Network</p>
+                <h2 class="h3 fw-bold mb-0" style="color: var(--contact-dark);">Temukan saya di media sosial</h2>
+            </div>
+            <p class="text-muted mb-0">Ikuti aktivitas dan pembaruan terbaru.</p>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <a href="https://www.instagram.com/mhmmdaldiprstyo_?igsh=MWZtcnUxamc5OGN6bw==" target="_blank" rel="noopener noreferrer" class="social-card">
+                    <div class="contact-icon"><i class="bi bi-instagram"></i></div>
+                    <div>
+                        <h3 class="h6 fw-bold mb-1">Instagram</h3>
+                        <p class="small text-muted mb-0">@mhmmdaldiprstyo_</p>
+                    </div>
+                    <i class="bi bi-arrow-up-right arrow"></i>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a href="https://www.tiktok.com/@prstyo06_?_r=1&amp;_t=ZS-94gVNxq400K" target="_blank" rel="noopener noreferrer" class="social-card">
+                    <div class="contact-icon"><i class="bi bi-tiktok"></i></div>
+                    <div>
+                        <h3 class="h6 fw-bold mb-1">TikTok</h3>
+                        <p class="small text-muted mb-0">@prstyo06_</p>
+                    </div>
+                    <i class="bi bi-arrow-up-right arrow"></i>
                 </a>
             </div>
         </div>
+    </section>
+
+    <div class="response-note d-flex align-items-start gap-3">
+        <i class="bi bi-shield-check fs-5"></i>
+        <span>Informasi kontak hanya digunakan untuk komunikasi yang relevan. Mohon hindari mengirim data pribadi atau informasi sensitif melalui pesan awal.</span>
     </div>
 </div>
 {% endblock %}

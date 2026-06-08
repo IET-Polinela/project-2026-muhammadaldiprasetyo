@@ -4,15 +4,15 @@
 
 {% block content %}
 <style>
-    :root { --agro-green: #13854e; }
+    :root { --agro-green: #006948; --agro-green-dark: #005238; }
     .login-container { display: flex; align-items: center; justify-content: center; min-height: 70vh; }
     .login-card { width: 100%; max-width: 500px; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
     .card-header-custom { background-color: var(--agro-green); color: white; padding: 30px; text-align: center; }
     .form-control-custom { height: 50px; border-radius: 10px; padding-left: 45px; }
     .input-wrapper { position: relative; margin-bottom: 20px; }
     .input-icon { position: absolute; left: 15px; top: 13px; color: var(--agro-green); z-index: 10; }
-    .btn-agro { background-color: #007bff; color: white; height: 50px; font-weight: bold; border-radius: 10px; transition: 0.3s; border: none; }
-    .btn-agro:hover { background-color: #0056b3; transform: translateY(-2px); }
+    .btn-agro { background-color: var(--agro-green); color: white; height: 50px; font-weight: bold; border-radius: 10px; transition: 0.3s; border: none; }
+    .btn-agro:hover { background-color: var(--agro-green-dark); color: white; transform: translateY(-2px); }
 </style>
 
 <div class="login-container">

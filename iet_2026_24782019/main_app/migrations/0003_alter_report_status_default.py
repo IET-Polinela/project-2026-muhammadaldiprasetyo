@@ -1,0 +1,26 @@
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('main_app', '0002_report_reporter_report_updated_at_and_more'),
+    ]
+
+    operations = [
+        migrations.AlterField(
+            model_name='report',
+            name='status',
+            field=models.CharField(
+                choices=[
+                    ('DRAFT', 'Draft'),
+                    ('REPORTED', 'Reported'),
+                    ('VERIFIED', 'Verified'),
+                    ('IN_PROGRESS', 'In Progress'),
+                    ('RESOLVED', 'Resolved'),
+                ],
+                default='DRAFT',
+                max_length=20,
+            ),
+        ),
+    ]
