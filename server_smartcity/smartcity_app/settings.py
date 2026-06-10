@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'smartcity_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'smartcity_db_aldi_new',
-        'USER': 'root',
-        'PASSWORD': '',
+        'NAME': 'db_mhs02',
+        'USER': 'user_mhs02',
+        'PASSWORD': 'mhs02',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
