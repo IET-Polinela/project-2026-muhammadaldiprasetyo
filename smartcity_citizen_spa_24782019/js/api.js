@@ -27,3 +27,11 @@ async function requestAPI(endpoint, method = 'GET', bodyData = null) {
         throw error;
     }
 }
+
+async function registerCitizen(userData) {
+    return await requestAPI(
+        '/api/register/',
+        'POST',
+        userData
+    );
+}

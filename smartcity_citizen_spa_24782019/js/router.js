@@ -44,6 +44,10 @@ const routes = {
                                 <button type="submit" class="btn btn-success w-100 fw-bold card-custom py-3">
                                     <i class="bi bi-box-arrow-in-right me-2"></i>Masuk ke Dashboard
                                 </button>
+
+                                <div class="text-center mt-4">Belum punya akun?
+                                    <a href="#register">Daftar Citizen</a>
+                                </div>
                             </form>
                             <div class="mt-4 p-3 rounded-4 bg-light border border-success-subtle">
                                 <div class="d-flex gap-3 align-items-start">
@@ -57,6 +61,105 @@ const routes = {
             </div>
         </section>
     `,
+    '#register': `
+<section class="login-shell">
+    <div class="login-panel">
+        <div class="row g-0">
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="login-brand-side h-100">
+                    <div class="position-relative z-1">
+                        <div class="login-brand-mark mb-4">
+                            <i class="bi bi-tree-fill"></i>
+                        </div>
+
+                        <p class="text-uppercase fw-bold small mb-3 opacity-75">
+                            Agro City Citizen Portal
+                        </p>
+
+                        <h1 class="display-6 fw-bold lh-sm mb-4">
+                            Daftar akun citizen baru.
+                        </h1>
+
+                        <p class="mb-4 opacity-75">
+                            Buat akun untuk mengirim laporan dan memantau perkembangan laporan kota.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="login-form-side">
+
+                    <div class="login-icon mb-4">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+
+                    <p class="text-uppercase fw-bold text-success small mb-2">
+                        Registrasi Warga
+                    </p>
+
+                    <h2 class="fw-bold mb-4">
+                        Daftar Citizen Agro City
+                    </h2>
+
+                    <form id="registerForm">
+
+                        <div class="input-with-icon mb-3">
+                            <i class="bi bi-person-fill"></i>
+                            <input
+                                type="text"
+                                id="registerUsername"
+                                class="form-control"
+                                placeholder="Username"
+                                required>
+                        </div>
+
+                        <div class="input-with-icon mb-3">
+                            <i class="bi bi-envelope-fill"></i>
+                            <input
+                                type="email"
+                                id="registerEmail"
+                                class="form-control"
+                                placeholder="Email">
+                        </div>
+
+                        <div class="input-with-icon mb-4">
+                            <i class="bi bi-key-fill"></i>
+                            <input
+                                type="password"
+                                id="registerPassword"
+                                class="form-control"
+                                placeholder="Password"
+                                required>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100 fw-bold py-3">
+
+                            <i class="bi bi-person-plus-fill me-2"></i>
+                            Daftar Sekarang
+
+                        </button>
+
+                    </form>
+                    
+                    <div class="text-center mt-4">
+
+                        Sudah punya akun?
+
+                        <a href="#login">
+                            Login disini
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+`,
     '#dashboard': `
         <div class="row g-4">
             <aside class="col-12 col-lg-3">
@@ -175,6 +278,14 @@ function handleRouting() {
         if (typeof setupLoginForm === 'function') {
             setupLoginForm();
         }
+    } else if (hash === '#register') {
+        mainNavbar.className = "navbar navbar-expand-lg navbar-dark agro-navbar shadow-sm navbar-transition";
+        navbarTitle.innerHTML = `<i class="bi bi-tree-fill me-2"></i> AGRO CITY Citizen`;
+        navMenus.innerHTML = '';
+        document.body.style.backgroundColor = "#f4f8f5";
+        if ( typeof setupRegisterForm === 'function') {
+            setupRegisterForm();
+        }
     } else if (hash === '#dashboard') {
         const token = localStorage.getItem('access_token');
         if (!token) {
@@ -206,3 +317,5 @@ function handleRouting() {
 
 window.addEventListener('hashchange', handleRouting);
 window.addEventListener('DOMContentLoaded', handleRouting);
+
+

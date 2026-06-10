@@ -38,3 +38,77 @@ function logout() {
     alert('Anda telah keluar dari sistem.');
     window.location.hash = '#login';
 }
+
+function setupRegisterForm() {
+
+    const form =
+        document.getElementById(
+            'registerForm'
+        );
+
+    if (!form) return;
+
+    form.addEventListener(
+        'submit',
+        async function (event) {
+
+            event.preventDefault();
+
+            const payload = {
+                username:
+                    document.getElementById(
+                        'registerUsername'
+                    ).value,
+
+                email:
+                    document.getElementById(
+                        'registerEmail'
+                    ).value,
+
+                password:
+                    document.getElementById(
+                        'registerPassword'
+                    ).value
+            };
+
+            try {
+
+                const response =
+                    await registerCitizen(
+                        payload
+                    );
+
+                if (
+                    response.status === 201
+                ) {
+
+                    alert(
+                        'Registrasi berhasil. Silakan login.'
+                    );
+
+                    window.location.hash =
+                        '#login';
+
+                } else {
+
+                    const data =
+                        await response.json();
+
+                    alert(
+                        JSON.stringify(
+                            data
+                        )
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+    );
+
+}
